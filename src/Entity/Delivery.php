@@ -40,7 +40,8 @@ class Delivery
     private $phoneNumber;
 
     /**
-     * @ORM\Column(type="integer", name="reservation_id")
+     * @ORM\OneToOne(targetEntity="Reservation")
+     * @ORM\JoinColumn(name="reservation_id", referencedColumnName="id")
      */
     private $reservationId;
 

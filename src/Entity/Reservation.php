@@ -30,22 +30,26 @@ class Reservation
     private $dateTo;
 
     /**
-     * @ORM\Column(type="integer", name="storage_type_id")
+     * @ORM\ManyToOne(targetEntity="StorageType")
+     * @ORM\JoinColumn(name="storage_type_id", referencedColumnName="id")
      */
     private $storageTypeId;
 
     /**
-     * @ORM\Column(type="integer", name="storage_volume_id")
+     * @ORM\ManyToOne(targetEntity="StorageVolume")
+     * @ORM\JoinColumn(name="storage_volume_id", referencedColumnName="id")
      */
     private $storageVolumeId;
 
     /**
-     * @ORM\Column(type="integer", name="user_id")
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $userId;
 
     /**
-     * @ORM\Column(type="integer", name="goods_id")
+     * @ORM\OneToOne(targetEntity="Goods")
+     * @ORM\JoinColumn(name="goods_id", referencedColumnName="id")
      */
     private $goodsId;
 

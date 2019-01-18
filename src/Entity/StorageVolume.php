@@ -25,7 +25,8 @@ class StorageVolume
     private $volume;
 
     /**
-     * @ORM\Column(type="integer", name="storage_type_id")
+     * @ORM\ManyToOne(targetEntity="StorageType")
+     * @ORM\JoinColumn(name="storage_type_id", referencedColumnName="id")
      */
     private $storageTypeId;
 

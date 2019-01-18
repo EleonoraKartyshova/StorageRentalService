@@ -25,7 +25,8 @@ class Goods
     private $title;
 
     /**
-     * @ORM\Column(type="integer", name="goods_property_id")
+     * @ORM\ManyToOne(targetEntity="GoodsProperty")
+     * @ORM\JoinColumn(name="goods_property_id", referencedColumnName="id")
      */
     private $goodsPropertyId;
 
@@ -35,7 +36,8 @@ class Goods
     private $details;
 
     /**
-     * @ORM\Column(type="integer", name="reservation_id")
+     * @ORM\OneToOne(targetEntity="Reservation")
+     * @ORM\JoinColumn(name="reservation_id", referencedColumnName="id")
      */
     private $reservationId;
 
