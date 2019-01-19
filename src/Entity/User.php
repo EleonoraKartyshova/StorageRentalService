@@ -67,6 +67,11 @@ class User
     private $createdAt;
 
     /**
+     * @ORM\Column(type="boolean", name="is_active", options={"default":1}, nullable=true)
+     */
+    private $isActive = 1;
+
+    /**
      * @var datetime $updated_at
      *
      * @ORM\Column(type="datetime", name="updated_at", nullable = true)
@@ -176,5 +181,15 @@ class User
     public function getRole()
     {
         return $this->role;
+    }
+
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+    }
+
+    public function getIsActive()
+    {
+        return $this->isActive;
     }
 }
