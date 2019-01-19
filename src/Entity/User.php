@@ -60,16 +60,16 @@ class User
     private $role = 0;
 
     /**
+     * @ORM\Column(type="boolean", name="is_active", options={"default":1}, nullable=true)
+     */
+    private $isActive = 1;
+
+    /**
      * @var datetime $created_at
      *
      * @ORM\Column(type="datetime", name="created_at")
      */
     private $createdAt;
-
-    /**
-     * @ORM\Column(type="boolean", name="is_active", options={"default":1}, nullable=true)
-     */
-    private $isActive = 1;
 
     /**
      * @var datetime $updated_at
