@@ -3,11 +3,16 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
 use DateTime;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(name="user")
+ * @UniqueEntity(fields="email", message="Email already taken")
+ * @UniqueEntity(fields="login", message="Username already taken")
  * @ORM\HasLifecycleCallbacks
  */
 class User
@@ -20,36 +25,44 @@ class User
     private $id;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(type="string", length=20)
      */
     private $login;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(type="string", length=20)
      */
     private $password;
 
     /**
+     * @Assert\NotBlank()
+     * @Assert\Email()
      * @ORM\Column(type="string", length=20)
      */
     private $email;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(type="string", length=50, name="company_title")
      */
     private $companyTitle;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(type="string", length=20, name="phone_number")
      */
     private $phoneNumber;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(type="string", length=30)
      */
     private $name;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(type="string", length=50)
      */
     private $address;
