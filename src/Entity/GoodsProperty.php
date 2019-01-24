@@ -78,4 +78,14 @@ class GoodsProperty
     {
         return $this->title;
     }
+
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
 }

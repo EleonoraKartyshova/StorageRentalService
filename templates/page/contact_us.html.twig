@@ -9,5 +9,28 @@
     <h1>This page is "Contact us"</h1>
     <h2>Some text will be here</h2>
     <p><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda consectetur consequatur cupiditate dolor dolore esse illo laudantium minima modi, nihil nisi nobis odit omnis quas quo reiciendis repellat repudiandae, sint?</span><span>Aliquam aperiam architecto assumenda beatae deleniti eos laudantium odit quis soluta tenetur. Accusantium aliquid, asperiores, consequuntur cumque eaque error hic magni minus mollitia placeat possimus quo recusandae sed ut veniam!</span><span>Dolores dolorum eos iure qui quisquam reiciendis rem temporibus ullam! Amet cum eius expedita ipsum maiores nostrum, quaerat reprehenderit rerum veniam. Asperiores debitis exercitationem nostrum qui quidem. Inventore, labore, tenetur!</span><span>Ad aliquid dolore ea eaque explicabo fuga hic ipsum minima nulla optio placeat provident ratione recusandae, repellat saepe similique, tenetur, ullam voluptates. Distinctio inventore nobis officia, placeat quas soluta voluptatibus?</span><span>Cum deserunt dignissimos illum laboriosam non provident quam tenetur. Eos et odio officiis omnis perspiciatis quas voluptatum? Delectus dignissimos earum esse expedita minus mollitia natus necessitatibus nisi, qui ratione unde!</span></p>
+    <p><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda consectetur consequatur cupiditate dolor dolore esse illo laudantium minima modi, nihil nisi nobis odit omnis quas quo reiciendis repellat repudiandae, sint?</span><span>Aliquam aperiam architecto assumenda beatae deleniti eos laudantium odit quis soluta tenetur. Accusantium aliquid, asperiores, consequuntur cumque eaque error hic magni minus mollitia placeat possimus quo recusandae sed ut veniam!</span><span>Dolores dolorum eos iure qui quisquam reiciendis rem temporibus ullam! Amet cum eius expedita ipsum maiores nostrum, quaerat reprehenderit rerum veniam. Asperiores debitis exercitationem nostrum qui quidem. Inventore, labore, tenetur!</span><span>Ad aliquid dolore ea eaque explicabo fuga hic ipsum minima nulla optio placeat provident ratione recusandae, repellat saepe similique, tenetur, ullam voluptates. Distinctio inventore nobis officia, placeat quas soluta voluptatibus?</span><span>Cum deserunt dignissimos illum laboriosam non provident quam tenetur. Eos et odio officiis omnis perspiciatis quas voluptatum? Delectus dignissimos earum esse expedita minus mollitia natus necessitatibus nisi, qui ratione unde!</span></p>
+    <div class="col-md-5">
+        <h3>Contact us</h3>
+        <div>
+            {% for flash in app.session.flashbag.get('success') %}
+                <div class="alert alert-success">{{ flash }}</div>
+            {% endfor %}
+        </div>
+
+        {{ form_start(feedback_form) }}
+        {{ form_row(feedback_form.name) }}
+        {{ form_row(feedback_form.email) }}
+        {{ form_row(feedback_form.subject) }}
+        {{ form_row(feedback_form.text) }}
+
+        <button class="btn btn-default" type="reset">Clear</button>
+        <button class="btn btn-primary" type="submit">Send!</button>
+        {{ form_end(feedback_form) }}
+        <br>
+    </div>
+{% endblock %}
+{% block footer %}
+    {% include (footer) %}
 {% endblock %}
 

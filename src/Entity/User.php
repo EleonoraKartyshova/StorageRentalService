@@ -205,4 +205,14 @@ class User
     {
         return $this->isActive;
     }
+
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
 }

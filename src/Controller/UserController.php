@@ -12,11 +12,13 @@ use App\Form\LoginType;
 use Symfony\Component\Form\NativeRequestHandler;
 
 
-class UserController extends BaseController
+class UserController extends FrontController
 {
-    protected $isAuth;
-    protected $role;
-    protected $login;
+    protected static $isAuth;
+    protected static $role;
+    protected static $login;
+    protected static $header;
+    protected static $footer;
 
     /**
      * @Route("/registration", name="registration")
@@ -54,9 +56,10 @@ class UserController extends BaseController
             ]);
             if ($user) {
                 return $this->render('page/about_us.html.twig', [
-                    'header' => 'header/auth_header.html.twig',
+                    'header' => parent::$header,
                     'about_us' => 'active',
-                    'user_login'=> $user->getLogin()
+                    'footer' => parent::$footer,
+                    'user_login' => parent::$login
                 ]);
             }
         }

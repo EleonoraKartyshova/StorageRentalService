@@ -134,4 +134,14 @@ class Delivery
     {
         return $this->reservationId;
     }
+
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
 }

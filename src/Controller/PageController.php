@@ -6,27 +6,23 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class PageController extends BaseController
+class PageController extends FrontController
 {
-    protected $isAuth;
-    protected $role;
-    protected $login;
-
+    protected static $isAuth;
+    protected static $role;
+    protected static $login;
+    protected static $header;
+    protected static $footer;
     /**
      * @Route("/", name="about_us")
      */
     public function index()
     {
-        if ($this->isAuth && $this->role == "1") {
-            $header = 'header/admin_header.html.twig';
-        } elseif ($this->isAuth && $this->role == "0") {
-            $header = 'header/auth_header.html.twig';
-        } else {
-            $header = 'header/not_auth_header.html.twig';
-        }
         return $this->render('page/about_us.html.twig', [
-            'header' => $header,
-            'about_us' => 'active'
+            'header' => parent::$header,
+            'about_us' => 'active',
+            'footer' => parent::$footer,
+            'user_login' => parent::$login
         ]);
     }
 
@@ -35,16 +31,11 @@ class PageController extends BaseController
      */
     public function show($page)
     {
-        if ($this->isAuth && $this->role == "1") {
-            $header = 'header/admin_header.html.twig';
-        } elseif ($this->isAuth && $this->role == "0") {
-            $header = 'header/auth_header.html.twig';
-        } else {
-            $header = 'header/not_auth_header.html.twig';
-        }
         return $this->render('page/'.$page.'.html.twig', [
-            'header' => $header,
-            $page => 'active'
+            'header' => parent::$header,
+            $page => 'active',
+            'footer' => parent::$footer,
+            'user_login' => parent::$login
         ]);
     }
 }

@@ -88,4 +88,14 @@ class StorageVolume
     {
         return $this->storageTypeId;
     }
+
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
 }

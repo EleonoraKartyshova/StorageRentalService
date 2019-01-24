@@ -13,9 +13,9 @@
     </head>
     <body>
         {% block body %}
-            <div id="header">{% block header %}{% endblock %}</div>
-            <div id="content">{% block content %}{% endblock %}</div>
-            <div id="footer">{% block footer %}&copy; Copyright 2019{% endblock %}</div>
+            <div class="header" id="header">{% block header %}{% endblock %}</div>
+            <div class="container" id="content">{% block content %}{% endblock %}</div>
+            <div class="footer" id="footer">{% block footer %}{% endblock %}</div>
         {% endblock %}
         {% block javascripts %}{% endblock %}
     </body>
