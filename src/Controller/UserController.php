@@ -10,20 +10,20 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Form\UserType;
 use App\Form\LoginType;
 use Symfony\Component\Form\NativeRequestHandler;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use App\Security\LoginFormAuthenticator;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
+
 
 
 class UserController extends FrontController
 {
-    protected static $isAuth;
-    protected static $role;
-    protected static $login;
-    protected static $header;
-    protected static $footer;
-
     /**
      * @Route("/registration", name="registration")
      */
-    public function registration(Request $request)
+    public function registration(Request $request, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $formAuthenticator)
     {
         $form = $this->createForm(UserType::class);
         $form->handleRequest($request);
@@ -33,7 +33,12 @@ class UserController extends FrontController
             $entityManager->persist($user);
             $entityManager->flush();
             $this->addFlash('success', 'Saved!');
-            return $this->redirectToRoute('registration');
+            return $guardHandler->authenticateUserAndHandleSuccess(
+                $user,
+                $request,
+                $formAuthenticator,
+                'main'
+            );
         }
         return $this->render('page/registration.html.twig', array(
             'reg_form' => $form->createView(),
@@ -41,35 +46,24 @@ class UserController extends FrontController
     }
 
     /**
-     * @Route("/login", name="login")
+     * @Route("/login", name="app_login")
      */
-    public function login(Request $request)
+    public function login(AuthenticationUtils $authenticationUtils): Response
     {
         $form = $this->createForm(LoginType::class);
-        $form->handleRequest($request);
-        if ($form->isSubmitted()) {
-            $data = $form->getData();
-            $repository = $this->getDoctrine()->getRepository(User::class);
-            $user = $repository->findOneBy([
-                'login' => $data->getLogin(),
-                'password' => $data->getPassword(),
-            ]);
-            if ($user) {
-                return $this->render('page/about_us.html.twig', [
-                    'header' => parent::$header,
-                    'about_us' => 'active',
-                    'footer' => parent::$footer,
-                    'user_login' => parent::$login
-                ]);
-            }
-        }
-        return $this->render('page/login.html.twig', array(
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
+        return $this->render('page/login.html.twig', [
+            'last_login' => $lastUsername,
+            'error' => $error,
             'login_form' => $form->createView(),
-        ));
+            ]);
     }
 
     /**
-     * @Route("/logout", name="logout")
+     * @Route("/logout", name="app_logout")
      */
     public function logout()
     {

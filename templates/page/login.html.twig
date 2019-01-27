@@ -5,17 +5,50 @@
 
 {% block body %}
 <div class="col-md-5">
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
     <h1>Login</h1>
-    {# templates/page/login.html.twig #}
+     {#templates/page/login.html.twig#}
 
-    {{ form_start(login_form) }}
-    {{ form_row(login_form.login) }}
-    {{ form_row(login_form.password) }}
+    {#{{ form_start(login_form) }}#}
+    {#{{ form_label(login_form.login, 'Login', {'label-attr': {'for':'inputLogin', 'class': 'sr-only'}}) }}#}
+    {#{{ form_widget(login_form.login, {'attr': {'type': 'text', 'name': 'login', 'id': 'inputLogin', 'class': 'form-control', 'placeholder': 'Login', 'required': 'true'}}) }}#}
+    {#{{ form_label(login_form.password, 'Password', {'label-attr': {'for':'inputPassword', 'class': 'sr-only'}}) }}#}
+    {#{{ form_widget(login_form.password, {'attr': {'type': 'password', 'name': 'password', 'id': 'inputPassword', 'class': 'form-control', 'placeholder': 'Password', 'required': 'true'}}) }}<br>#}
+    {#<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">#}
+    {#<button class="btn btn-default" type="reset">Clear</button>#}
+    {#<button class="btn btn-primary" type="submit">Login</button>#}
+    {#{{ form_end(login_form) }}#}
+
+    {#{{ form_start(login_form) }}#}
+    {#{{ form_row(login_form.login) }}#}
+    {#{{ form_row(login_form.password) }}#}
+    {#<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">#}
+    {#<button class="btn btn-default" type="reset">Clear</button>#}
+    {#<button class="btn btn-primary" type="submit">Login</button>#}
+    {#{{ form_end(login_form) }}#}
+
+    <form method="post">
+    <label for="inputLogin" class="sr-only">Login</label><br>
+    <input type="text" value="{{ last_login }}" name="login" id="inputLogin" class="form-control" placeholder="Login" required autofocus><br>
+    <label for="inputPassword" class="sr-only">Password</label><br>
+    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required><br>
+
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" name="_remember_me"> Remember me
+            </label>
+        </div>
 
     <button class="btn btn-default" type="reset">Clear</button>
     <button class="btn btn-primary" type="submit">Login</button>
-    {{ form_end(login_form) }}
+    </form>
+
     <br>
     <div><a class="nav-link" href="{{ path('about_us') }}">Back to the main page</a></div>
+
 </div>
 {% endblock %}

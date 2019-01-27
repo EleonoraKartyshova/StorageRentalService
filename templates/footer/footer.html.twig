@@ -1,4 +1,4 @@
-{# templates/footer/auth_footer.html.twig #}
+{# templates/footer/footer.html.twig #}
     {% block footer %}
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
@@ -9,7 +9,11 @@
                     <a class="nav-item nav-link {% if about_us is defined %} {{ about_us }} {% endif %}" href="{{ path('page_show', {'page': 'about_us'}) }}">About us <span class="sr-only">(current)</span></a>
                     <a class="nav-item nav-link {% if our_services is defined %} {{ our_services }} {% endif %}" href="{{ path('page_show', {'page': 'our_services'}) }}">Our services</a>
                     <a class="nav-item nav-link {% if contact_us is defined %} {{ contact_us }} {% endif %}" href="{{ path('page_show', {'page': 'contact_us'}) }}">Contact us</a>
-                    <a class="nav-link nav-link {% if logout is defined %} {{ logout }} {% endif %}" href="{{ path('logout') }}">Logout</a>
+                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_USER')%}
+                    <a class="nav-link nav-link {% if logout is defined %} {{ logout }} {% endif %}" href="{{ path('app_logout') }}">Logout</a>
+                    {% else %}
+                    <a class="nav-item nav-link {% if login is defined %} {{ login }} {% endif %}" href="{{ path('app_login') }}">Login</a>
+                    {% endif %}
                 </div>
             </div>
         </nav>
