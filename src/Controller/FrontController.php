@@ -15,8 +15,8 @@ abstract class FrontController extends AbstractController
     /**
      * @method User|null getUser()
      */
-    protected function getUser(): User
-    {
-        return parent::getUser();
-    }
+//    protected function getUser(): User
+//    {
+//        return parent::getUser();
+//    }
 }

@@ -5,6 +5,8 @@ namespace App\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
+use App\Entity\User;
 
 class PageController extends FrontController
 {

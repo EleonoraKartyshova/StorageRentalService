@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block header %}
+    {% include ('header/header.html.twig') %}
+{% endblock %}
+{% block content %}
+    <div class="col-md-6">
+        <div>
+            {% for flash in app.session.flashbag.get('success') %}
+                <div class="alert alert-success">{{ flash }}</div>
+            {% endfor %}
+        </div>
+        <h1>This page is "Edit profile"</h1>
+
+        {{ form_start(profile_user_form) }}
+        {{ form_row(profile_user_form.login, {'attr': {'placeholder': app.user.login}}) }}
+        {{ form_row(profile_user_form.password, {'value': app.user.password}) }}
+        {{ form_row(profile_user_form.companyTitle, {'value': app.user.companyTitle}) }}
+        {{ form_row(profile_user_form.phoneNumber, {'value': app.user.phoneNumber}) }}
+        {{ form_row(profile_user_form.name, {'value': app.user.name}) }}
+        {{ form_row(profile_user_form.address, {'value': app.user.address}) }}
+
+        <button class="btn btn-default" type="reset">Clear</button>
+        <button class="btn btn-primary" type="submit">Apply!</button>
+        {{ form_end(profile_user_form) }}
+    </div>
+{% endblock %}
+{% block footer %}
+    {% include ('footer/footer.html.twig') %}
+{% endblock %}
+

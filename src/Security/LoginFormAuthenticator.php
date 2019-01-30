@@ -42,9 +42,10 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function getCredentials(Request $request)
     {
+        $loginFormData = $request->request->get('login');
         $credentials = [
-            'login' => $request->request->get('login'),
-            'password' => $request->request->get('password'),
+            'login' => $loginFormData['login'],
+            'password' => $loginFormData['password'],
             'csrf_token' => $request->request->get('_csrf_token'),
         ];
         $request->getSession()->set(
@@ -52,6 +53,11 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             $credentials['login']
         );
         return $credentials;
+        //        $credentials = [
+//            'login' => $request->request->get('login'),
+//            'password' => $request->request->get('password'),
+//            'csrf_token' => $request->request->get('_csrf_token'),
+//        ];
     }
 
     public function getUser($credentials, UserProviderInterface $userProvider)

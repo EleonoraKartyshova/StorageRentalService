@@ -21,14 +21,39 @@
                     <li class="nav-item {% if reservation is defined %} {{ reservation }} {% endif %}">
                         <a class="nav-link" href="#">Reservation</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#">Hello, {{ app.user.login }}!</a>
-                    </li>
+                        <li class="nav-item dropdown {% if profile is defined %} {{ profile }} {% endif %}">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {% if app.user.photo is not null %}
+                                <img class="nav-profile-img rounded-circle nav-user_photo" src="{{ asset(app.user.photo) }}">
+                                {% else %}
+                                <img class="nav-profile-img rounded-circle nav-user_photo" src="{{ asset('images/defaultUserPhoto.png') }}">
+                                {% endif %}
+                                {{ app.user.login }}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ path('show_profile') }}">View profile</a>
+                                <a class="dropdown-item" href="{{ path('edit_profile') }}">Edit profile</a>
+                            </div>
+                        </li>
                     <li class="nav-item {% if logout is defined %} {{ logout }} {% endif %}">
                         <a class="nav-link" href="{{ path('app_logout') }}">Logout</a>
                     {% elseif is_granted('ROLE_ADMIN') %}
                         <li class="nav-item {% if reservation is defined %} {{ reservation }} {% endif %}">
                             <a class="nav-link" href="#">Reservation</a>
+                        </li>
+                        <li class="nav-item dropdown {% if profile is defined %} {{ profile }} {% endif %}">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {% if app.user.photo is not null %}
+                                    <img class="nav-profile-img rounded-circle nav-user_photo" src="{{ asset(app.user.photo) }}">
+                                {% else %}
+                                    <img class="nav-profile-img rounded-circle nav-user_photo" src="{{ asset('images/defaultUserPhoto.png') }}">
+                                {% endif %}
+                                {{ app.user.login }}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ path('show_profile') }}">View profile</a>
+                                <a class="dropdown-item" href="{{ path('edit_profile') }}">Edit profile</a>
+                            </div>
                         </li>
                     <li class="nav-item {% if admin_panel is defined %} {{ admin_panel }} {% endif %}">
                         <a class="nav-link" href="#">Admin panel</a>

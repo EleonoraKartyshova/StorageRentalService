@@ -15,7 +15,10 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use App\Security\LoginFormAuthenticator;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Core\Security;
+use App\Form\ProfileType;
+use Symfony\Component\Form\ClearableErrorsInterface;
 
 
 class UserController extends FrontController
@@ -67,9 +70,66 @@ class UserController extends FrontController
      */
     public function logout()
     {
-        $form = $this->createForm(LoginType::class);
-        return $this->render('page/login.html.twig', array(
-            'login_form' => $form->createView(),
-        ));
+    }
+
+    /**
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @Route("/profile/show", name="show_profile")
+     */
+    public function showProfile()
+    {
+        return $this->render('page/profile.html.twig', [
+            'profile' => 'active',
+        ]);
+    }
+
+    /**
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @Route("/profile/edit", name="edit_profile")
+     */
+    public function editProfile(Request $request, Security $security)
+    {
+        $form = $this->createForm(ProfileType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->get('password')->isValid() &&
+        $form->get('companyTitle')->isValid() &&
+        $form->get('phoneNumber')->isValid() &&
+        $form->get('name')->isValid() &&
+        $form->get('address')->isValid()) {
+            $authUser = $security->getUser();
+            $entityManager = $this->getDoctrine()->getManager();
+            $formData = $form->getData();
+            $formDataLogin = $formData->getLogin();
+            $formDataPassword = $formData->getPassword();
+            $formDataCompanyTitle = $formData->getCompanyTitle();
+            $formDataPhoneNumber = $formData->getPhoneNumber();
+            $formDataName = $formData->getName();
+            $formDataAddress = $formData->getAddress();
+            if ($formDataLogin != $authUser->getLogin() && $form->isValid()) {
+                $authUser->setLogin($formDataLogin);
+                $authUser->setPassword($formDataPassword);
+                $authUser->setCompanyTitle($formDataCompanyTitle);
+                $authUser->setPhoneNumber($formDataPhoneNumber);
+                $authUser->setName($formDataName);
+                $authUser->setAddress($formDataAddress);
+            } elseif ($formDataLogin == $authUser->getLogin()) {
+                $form->clearErrors(true);
+                $authUser->setPassword($formDataPassword);
+                $authUser->setCompanyTitle($formDataCompanyTitle);
+                $authUser->setPhoneNumber($formDataPhoneNumber);
+                $authUser->setName($formDataName);
+                $authUser->setAddress($formDataAddress);
+            }
+            $entityManager->flush();
+            $this->addFlash('success', 'Saved!');
+            return $this->render('page/edit_profile.html.twig', [
+                'profile' => 'active',
+                'profile_user_form' => $form->createView(),
+            ]);
+        }
+        return $this->render('page/edit_profile.html.twig', [
+            'profile' => 'active',
+            'profile_user_form' => $form->createView(),
+        ]);
     }
 }

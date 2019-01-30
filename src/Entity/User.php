@@ -68,6 +68,11 @@ class User implements UserInterface
     private $address;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $photo;
+
+    /**
      * @ORM\Column(type="string", options={"default": "ROLE_USER"})
      */
     private $role = "ROLE_USER";
@@ -269,5 +274,17 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         return true;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): self
+    {
+        $this->photo = $photo;
+
+        return $this;
     }
 }

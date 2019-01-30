@@ -1,0 +1,15 @@
+body>.container {
+    padding-top: 150px;
+}
+.footer {
+    margin-top: 100px;
+}
+.nav-user_photo {
+    height: 50px;
+}
+.nav-link {
+    vertical-align: middle;
+}
+.profile-user_photo {
+    height: 150px;
+}
