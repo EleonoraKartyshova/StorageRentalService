@@ -2,9 +2,6 @@
 
 {% block title %}Contact us{% endblock %}
 
-{% block header %}
-    {% include ('header/header.html.twig') %}
-{% endblock %}
 {% block content %}
     <div>
         {% for flash in app.session.flashbag.get('success') %}
@@ -23,13 +20,11 @@
         {{ form_row(feedback_form.email) }}
         {{ form_row(feedback_form.subject) }}
         {{ form_row(feedback_form.text) }}
-
-        <button class="btn btn-default" type="reset">Clear</button>
-        <button class="btn btn-primary" type="submit">Send!</button>
+        <div class="text-right">
+            <button class="btn btn-default" type="reset">Clear</button>
+            <button class="btn btn-primary" type="submit">Send!</button>
+        </div>
         {{ form_end(feedback_form) }}
     </div>
-{% endblock %}
-{% block footer %}
-    {% include ('footer/footer.html.twig') %}
 {% endblock %}
 

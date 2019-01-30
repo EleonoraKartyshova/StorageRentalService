@@ -19,6 +19,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Security\Core\Security;
 use App\Form\ProfileType;
 use Symfony\Component\Form\ClearableErrorsInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 
 class UserController extends FrontController
@@ -45,6 +46,7 @@ class UserController extends FrontController
         }
         return $this->render('page/registration.html.twig', array(
             'reg_form' => $form->createView(),
+            'registration' => 'active',
         ));
     }
 
@@ -62,6 +64,7 @@ class UserController extends FrontController
             'last_login' => $lastUsername,
             'error' => $error,
             'login_form' => $form->createView(),
+            'login' => 'active',
             ]);
     }
 
@@ -90,13 +93,24 @@ class UserController extends FrontController
     public function editProfile(Request $request, Security $security)
     {
         $form = $this->createForm(ProfileType::class);
+        $authUser = $security->getUser();
+        if ($request->request->get('removeUserProfilePhoto')) {
+            $directory = "images/";
+            $filename = $authUser->getPhoto();
+            unlink($directory.$filename);
+            $entityManager = $this->getDoctrine()->getManager();
+            $authUser->setPhoto(null);
+            $entityManager->flush();
+            $this->addFlash('success', 'Saved!');
+            return $this->redirectToRoute('edit_profile');
+        }
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->get('password')->isValid() &&
         $form->get('companyTitle')->isValid() &&
         $form->get('phoneNumber')->isValid() &&
         $form->get('name')->isValid() &&
-        $form->get('address')->isValid()) {
-            $authUser = $security->getUser();
+        $form->get('address')->isValid() && $form->get('photo')->isValid()) {
+
             $entityManager = $this->getDoctrine()->getManager();
             $formData = $form->getData();
             $formDataLogin = $formData->getLogin();
@@ -105,6 +119,13 @@ class UserController extends FrontController
             $formDataPhoneNumber = $formData->getPhoneNumber();
             $formDataName = $formData->getName();
             $formDataAddress = $formData->getAddress();
+            $file = $form['photo']->getData();
+            if (!empty($file)) {
+                $directory = "images/";
+                $filename = $file->getClientOriginalName();
+                $file->move($directory, $filename);
+                $authUser->setPhoto($filename);
+            }
             if ($formDataLogin != $authUser->getLogin() && $form->isValid()) {
                 $authUser->setLogin($formDataLogin);
                 $authUser->setPassword($formDataPassword);
@@ -122,10 +143,7 @@ class UserController extends FrontController
             }
             $entityManager->flush();
             $this->addFlash('success', 'Saved!');
-            return $this->render('page/edit_profile.html.twig', [
-                'profile' => 'active',
-                'profile_user_form' => $form->createView(),
-            ]);
+            return $this->redirectToRoute('edit_profile');
         }
         return $this->render('page/edit_profile.html.twig', [
             'profile' => 'active',

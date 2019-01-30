@@ -2,9 +2,6 @@
 
 {% block title %}Profile{% endblock %}
 
-{% block header %}
-    {% include ('header/header.html.twig') %}
-{% endblock %}
 {% block content %}
     <div class="col-md-6">
         <h1>This page is "Profile"</h1>
@@ -70,15 +67,12 @@
             </div>
             <div class="col-md-6">
                 {% if app.user.photo is not null %}
-                    <img class="nav-profile-img rounded-circle profile-user_photo" src="{{ asset(app.user.photo) }}">
+                    <img class="nav-profile-img rounded-circle profile-user_photo" src="{{ asset('images/') }}{{ asset(app.user.photo) }}">
                 {% else %}
                     <img class="nav-profile-img rounded-circle profile-user_photo" src="{{ asset('images/defaultUserPhoto.png') }}">
                 {% endif %}
             </div>
         </div>
     </div>
-{% endblock %}
-{% block footer %}
-    {% include ('footer/footer.html.twig') %}
 {% endblock %}
 

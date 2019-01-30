@@ -1,9 +1,8 @@
 {% extends 'base.html.twig' %}
 
-
 {% block title %}Registration{% endblock %}
 
-{% block body %}
+{% block content %}
     <div class="col-md-5">
         <h1>Registration</h1>
         <div>
@@ -21,9 +20,10 @@
         {{ form_row(reg_form.phoneNumber) }}
         {{ form_row(reg_form.name) }}
         {{ form_row(reg_form.address) }}
-
-        <button class="btn btn-default" type="reset">Clear</button>
-        <button class="btn btn-primary" type="submit">Register!</button>
+        <div class="text-right">
+            <button class="btn btn-default" type="reset">Clear</button>
+            <button class="btn btn-primary" type="submit">Register!</button>
+        </div>
         {{ form_end(reg_form) }}
         <br>
         <div><a class="nav-link" href="{{ path('about_us') }}">Back to the main page</a></div>

@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\ClearableErrorsInterface;
 
@@ -21,7 +22,7 @@ class ProfileType extends AbstractType
             ->add('phoneNumber',TextType::class, ['required' => true])
             ->add('name',TextType::class, ['required' => true])
             ->add('address',TextType::class, ['required' => true])
-
+            ->add('photo',FileType::class, ['required' => false])
         ;
     }
 

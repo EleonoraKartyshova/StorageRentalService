@@ -11,5 +11,10 @@ body>.container {
     vertical-align: middle;
 }
 .profile-user_photo {
-    height: 150px;
+    height: 200px;
 }
+.custom-file-label:after {
+    content: "Choose a new profile photo";
+}
+/*.custom-file-label { opacity: 0; }*/
+/*.custom-file-input { opacity: 1; }*/
