@@ -96,6 +96,11 @@ class User implements UserInterface
      */
     private $updatedAt;
 
+    public function __toString()
+    {
+        return strval($this->getId());
+    }
+
     /**
      * Gets triggered only on insert
 

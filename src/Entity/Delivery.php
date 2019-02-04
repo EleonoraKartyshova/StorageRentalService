@@ -41,7 +41,7 @@ class Delivery
 
     /**
      * @ORM\OneToOne(targetEntity="Reservation")
-     * @ORM\JoinColumn(name="reservation_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="reservation_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $reservationId;
 
@@ -87,7 +87,8 @@ class Delivery
 
     public function setDateFrom($dateFrom)
     {
-        $this->dateFrom = new Datetime($dateFrom);
+//        $this->dateFrom = new Datetime($dateFrom);
+        $this->dateFrom = $dateFrom;
     }
 
     public function getDateFrom()
@@ -97,7 +98,8 @@ class Delivery
 
     public function setDateTo($dateTo)
     {
-        $this->dateTo = new Datetime($dateTo);
+//        $this->dateTo = new Datetime($dateTo);
+        $this->dateTo = $dateTo;
     }
 
     public function getDateTo()

@@ -16,13 +16,9 @@ class Goods
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @ORM\OneToOne(targetEntity="Reservation", cascade={"persist", "remove"})
      */
     private $id;
-
-    /**
-     * @ORM\Column(type="string", length=50)
-     */
-    private $title;
 
     /**
      * @ORM\ManyToOne(targetEntity="GoodsProperty")
@@ -37,7 +33,7 @@ class Goods
 
     /**
      * @ORM\OneToOne(targetEntity="Reservation")
-     * @ORM\JoinColumn(name="reservation_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="reservation_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $reservationId;
 
@@ -78,16 +74,6 @@ class Goods
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function setTitle($title)
-    {
-        $this->title = $title;
-    }
-
-    public function getTitle()
-    {
-        return $this->title;
     }
 
     public function setGoodsPropertyId($goodsPropertyId)

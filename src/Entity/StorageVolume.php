@@ -44,6 +44,11 @@ class StorageVolume
      */
     private $updatedAt;
 
+    public function __toString()
+    {
+        return $this->getVolume();
+    }
+
     /**
      * Gets triggered only on insert
 

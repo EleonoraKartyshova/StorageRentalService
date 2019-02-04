@@ -21,8 +21,14 @@
                         <a class="nav-link" href="{{ path('page_show', {'page': 'contact_us'}) }}">Contact us</a>
                     </li>
                     {% if is_granted('ROLE_USER') %}
-                        <li class="nav-item {% if reservation is defined %} {{ reservation }} {% endif %}">
-                            <a class="nav-link" href="#">Reservation</a>
+                        <li class="nav-item dropdown {% if reservation is defined %} {{ reservation }} {% endif %}">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Reservation
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ path('create_reservation') }}">Create reservation</a>
+                                <a class="dropdown-item" href="{{ path('reservations_list') }}">My Reservations list</a>
+                            </div>
                         </li>
                         <li class="nav-item {% if logout is defined %} {{ logout }} {% endif %}">
                             <a class="nav-link" href="{{ path('app_logout') }}">Logout</a>
@@ -45,8 +51,14 @@
                     </li>
                 </div>
                     {% elseif is_granted('ROLE_ADMIN') %}
-                        <li class="nav-item {% if reservation is defined %} {{ reservation }} {% endif %}">
-                            <a class="nav-link" href="#">Reservation</a>
+                        <li class="nav-item dropdown {% if reservation is defined %} {{ reservation }} {% endif %}">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Reservation
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ path('create_reservation') }}">Create reservation</a>
+                                <a class="dropdown-item" href="{{ path('reservations_list') }}">My Reservations list</a>
+                            </div>
                         </li>
                         <li class="nav-item {% if admin_panel is defined %} {{ admin_panel }} {% endif %}">
                             <a class="nav-link" href="#">Admin panel</a>

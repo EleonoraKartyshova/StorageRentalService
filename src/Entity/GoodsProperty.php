@@ -16,6 +16,7 @@ class GoodsProperty
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @ORM\OneToMany(targetEntity="Goods")
      */
     private $id;
 
@@ -38,6 +39,11 @@ class GoodsProperty
      * @ORM\Column(type="datetime", name="updated_at", nullable = true)
      */
     private $updatedAt;
+
+    public function __toString()
+    {
+        return $this->getTitle();
+    }
 
     /**
      * Gets triggered only on insert

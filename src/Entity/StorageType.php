@@ -48,6 +48,11 @@ class StorageType
      */
     private $updatedAt;
 
+    public function __toString()
+    {
+        return $this->getTitle();
+    }
+
     /**
      * Gets triggered only on insert
 

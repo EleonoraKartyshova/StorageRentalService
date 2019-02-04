@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ReservationRepository")
@@ -16,6 +17,7 @@ class Reservation
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @ORM\OneToOne(targetEntity="Goods", cascade={"persist", "remove"})
      */
     private $id;
 
@@ -49,7 +51,7 @@ class Reservation
 
     /**
      * @ORM\OneToOne(targetEntity="Goods")
-     * @ORM\JoinColumn(name="goods_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="goods_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $goodsId;
 
@@ -104,7 +106,8 @@ class Reservation
 
     public function setDateFrom($dateFrom)
     {
-        $this->dateFrom = new Datetime($dateFrom);
+//        $this->dateFrom = new Datetime($dateFrom);
+        $this->dateFrom = $dateFrom;
     }
 
     public function getDateFrom()
@@ -114,7 +117,8 @@ class Reservation
 
     public function setDateTo($dateTo)
     {
-        $this->dateTo = new Datetime($dateTo);
+//        $this->dateTo = new Datetime($dateTo);
+        $this->dateTo = $dateTo;
     }
 
     public function getDateTo()
