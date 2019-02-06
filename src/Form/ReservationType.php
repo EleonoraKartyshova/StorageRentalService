@@ -23,20 +23,6 @@ class ReservationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-//            ->add('userId', TextType::class, [
-//                'label' => false,
-//                'attr' => [
-//                    'hidden' => true
-//                ],
-//            ])
-            ->add('userId', EntityType::class, [
-                'class' => User::class,
-                'label' => false,
-                'choice_value' => 'id',
-                'attr' => [
-                    'hidden' => true,
-                ],
-            ])
             ->add('dateFrom')
             ->add('dateTo')
             ->add('details', TextareaType::class, ['required' => true])
@@ -55,8 +41,7 @@ class ReservationType extends AbstractType
             ])
             ->add('storageVolumeId', EntityType::class, [
                 'class' => StorageVolume::class,
-                'disabled' => true,
-                'attr' => ['disabled'=> true],
+                //'disabled' => true,
                 'choice_attr' => function(StorageVolume $volume){
                     return array('class' => strval($volume->getStorageTypeId()->getId()));
                 },

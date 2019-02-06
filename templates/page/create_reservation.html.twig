@@ -11,8 +11,6 @@
 
         {{ form_start(reservation_form) }}
 
-        {{ form_row(reservation_form.userId, {'choice_value': app.user.id}) }}
-        {#{{ form_row(reservation_form.userId, {'value': app.user.id}) }}#}
         <hr><h3>Storage details</h3>
         {{ form_row(reservation_form.dateFrom) }}
         {{ form_row(reservation_form.dateTo) }}
@@ -29,10 +27,10 @@
         {{ form_row(reservation_form.hasDelivery, { 'label': 'At the end of the storage period I want to:' }) }}
         <div class="hasDeliveryDetails" hidden disabled>
             {{ form_start(delivery_form) }}
-            {{ form_row(delivery_form.dateFrom) }}
-            {{ form_row(delivery_form.dateTo) }}
-            {{ form_row(delivery_form.address) }}
-            {{ form_row(delivery_form.phoneNumber) }}
+            {{ form_row(delivery_form.dateFrom, {'attr': {'class': 'deliveryFormInput'} }) }}
+            {{ form_row(delivery_form.dateTo, {'attr': {'class': 'deliveryFormInput'} }) }}
+            {{ form_row(delivery_form.address, {'attr': {'class': 'deliveryFormInput'} }) }}
+            {{ form_row(delivery_form.phoneNumber, {'attr': {'class': 'deliveryFormInput'} }) }}
         </div>
         <br>
         <div class="text-right">

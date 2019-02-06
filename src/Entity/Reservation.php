@@ -106,7 +106,6 @@ class Reservation
 
     public function setDateFrom($dateFrom)
     {
-//        $this->dateFrom = new Datetime($dateFrom);
         $this->dateFrom = $dateFrom;
     }
 
@@ -117,7 +116,6 @@ class Reservation
 
     public function setDateTo($dateTo)
     {
-//        $this->dateTo = new Datetime($dateTo);
         $this->dateTo = $dateTo;
     }
 
@@ -156,9 +154,10 @@ class Reservation
         return $this->userId;
     }
 
-    public function setGoodsId($goodsId)
+    public function setGoodsId(?Goods $goodsId): self
     {
         $this->goodsId = $goodsId;
+        return $this;
     }
 
     public function getGoodsId()

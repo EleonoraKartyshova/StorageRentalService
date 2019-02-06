@@ -1,5 +1,6 @@
 body>.container {
     padding-top: 150px;
+    min-height: 100vh;
 }
 .footer {
     margin-top: 100px;
@@ -15,6 +16,9 @@ body>.container {
 }
 .custom-file-label:after {
     content: "Choose a new profile photo";
+}
+.deliveryFormInput select {
+
 }
 /*.custom-file-label { opacity: 0; }*/
 /*.custom-file-input { opacity: 1; }*/

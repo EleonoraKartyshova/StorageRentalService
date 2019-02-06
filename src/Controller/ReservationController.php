@@ -36,18 +36,35 @@ class ReservationController extends AbstractController
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @Route("/reservation/create", name="create_reservation")
      */
-    public function createReservation(Request $request)
+    public function createReservation(Request $request, Security $security)
     {
         $formReservation = $this->createForm(ReservationType::class);
         $formGoods = $this->createForm(GoodsType::class);
         $formDelivery = $this->createForm(DeliveryType::class);
+        $user = $security->getUser();
         $formReservation->handleRequest($request);
         $formGoods->handleRequest($request);
         $formDelivery->handleRequest($request);
-        if ($formReservation->isSubmitted()) {
+        if ($formReservation->isSubmitted() && $formGoods->isSubmitted() && !($formReservation['hasDelivery']->getData())) {
             $reservation = $formReservation->getData();
+            $reservation->setUserId($user);
             $goods = $formGoods->getData();
+            $goods->setReservationId($reservation);
+            $reservation->setGoodsId($goods);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($reservation);
+            $entityManager->persist($goods);
+            $entityManager->flush();
+            return $this->redirectToRoute('reservations_list');
+        }
+        if ($formReservation->isSubmitted() && $formGoods->isSubmitted() && $formDelivery->isSubmitted() && ($formReservation['hasDelivery']->getData())) {
+            $reservation = $formReservation->getData();
+            $reservation->setUserId($user);
+            $goods = $formGoods->getData();
+            $goods->setReservationId($reservation);
+            $reservation->setGoodsId($goods);
             $delivery = $formDelivery->getData();
+            $delivery->setReservationId($reservation);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($reservation);
             $entityManager->persist($goods);

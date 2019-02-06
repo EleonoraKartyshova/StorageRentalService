@@ -96,9 +96,10 @@ class Goods
         return $this->details;
     }
 
-    public function setReservationId($reservationId)
+    public function setReservationId(?Reservation $reservationId): self
     {
         $this->reservationId = $reservationId;
+        return $this;
     }
 
     public function getReservationId()

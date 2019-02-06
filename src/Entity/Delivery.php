@@ -20,28 +20,28 @@ class Delivery
     private $id;
 
     /**
-     * @ORM\Column(type="date", name="date_from")
+     * @ORM\Column(type="date", name="date_from", nullable = true)
      */
     private $dateFrom;
 
     /**
-     * @ORM\Column(type="date", name="date_to")
+     * @ORM\Column(type="date", name="date_to", nullable = true)
      */
     private $dateTo;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50, nullable = true)
      */
     private $address;
 
     /**
-     * @ORM\Column(type="string", length=20, name="phone_number")
+     * @ORM\Column(type="string", length=20, name="phone_number", nullable = true)
      */
     private $phoneNumber;
 
     /**
      * @ORM\OneToOne(targetEntity="Reservation")
-     * @ORM\JoinColumn(name="reservation_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(name="reservation_id", referencedColumnName="id", onDelete="CASCADE", nullable = true)
      */
     private $reservationId;
 
@@ -87,7 +87,6 @@ class Delivery
 
     public function setDateFrom($dateFrom)
     {
-//        $this->dateFrom = new Datetime($dateFrom);
         $this->dateFrom = $dateFrom;
     }
 
@@ -98,7 +97,6 @@ class Delivery
 
     public function setDateTo($dateTo)
     {
-//        $this->dateTo = new Datetime($dateTo);
         $this->dateTo = $dateTo;
     }
 
@@ -127,9 +125,10 @@ class Delivery
         return $this->phoneNumber;
     }
 
-    public function setReservationId($reservationId)
+    public function setReservationId(?Reservation $reservationId): self
     {
         $this->reservationId = $reservationId;
+        return $this;
     }
 
     public function getReservationId()

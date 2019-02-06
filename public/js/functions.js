@@ -4,11 +4,18 @@ $( "#reservation_storageTypeId" ).change(function () {
 $(document).ready(function(){
     $("#reservation_storageVolumeId").chained("#reservation_storageTypeId");
 })
+$(".hasDeliveryDetails").prop("hidden", true);
+$("#delivery_dateFrom_year, #delivery_dateFrom_month, #delivery_dateFrom_day, #delivery_dateTo_day, #delivery_dateTo_month, #delivery_dateTo_year, #delivery_address, #delivery_phoneNumber ")
+    .prop("required", false).prop("disabled", true);
 $( "#reservation_hasDelivery").change(function () {
     if ($(this).val() == 1) {
-        $( ".hasDeliveryDetails " ).prop("hidden", false).prop("disabled", false);
+        $( ".hasDeliveryDetails " ).prop("hidden", false);
+        $("#delivery_dateFrom_year, #delivery_dateFrom_month, #delivery_dateFrom_day, #delivery_dateTo_day, #delivery_dateTo_month, #delivery_dateTo_year, #delivery_address, #delivery_phoneNumber ")
+            .prop("required", true).prop("disabled", false);
     } else {
-        $( ".hasDeliveryDetails " ).prop("hidden", true).prop("disabled", true);
+        $( ".hasDeliveryDetails " ).prop("hidden", true);
+        $("#delivery_dateFrom_year, #delivery_dateFrom_month, #delivery_dateFrom_day, #delivery_dateTo_day, #delivery_dateTo_month, #delivery_dateTo_year, #delivery_address, #delivery_phoneNumber ")
+            .prop("required", false).prop("disabled", true);
     }
 })
 // $("#reservation_userId").val("5").prop("selected", true);
