@@ -3,10 +3,38 @@
 {% block title %}My Reservations list{% endblock %}
 
 {% block content %}
-    <div class="col-md-6">
+    <div class="col-md-10">
         <h1>This page is "My Reservations list"</h1>
-        {% for flash in app.session.flashbag.get('success') %}
-            <div class="alert alert-success">{{ flash }}</div>
-        {% endfor %}
+
+        <table class="table-bordered table-hover table">
+            <thead class="thead-dark">
+            <tr>
+                <th>Date from</th>
+                <th>Date to</th>
+                <th>Storage type</th>
+                <th>Storage volume</th>
+                <th>Has delivery</th>
+                <th>Reservation details</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for reservation in reservations %}
+                <tr>
+                    <td>{{ reservation.dateFrom|date('Y-m-d') }}</td>
+                    <td>{{ reservation.dateTo|date('Y-m-d') }}</td>
+                    <td>{{ reservation.storageTypeId }}</td>
+                    <td>{{ reservation.storageVolumeId }}</td>
+                    <td>
+                        {% if reservation.hasDelivery==1 %}
+                            yes
+                        {% else %}
+                            no
+                        {% endif %}
+                    </td>
+                    <td><a class="text-dark btn btn-link" href="#" data-toggle="modal" data-target="#exampleModal">Show details</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
 {% endblock %}

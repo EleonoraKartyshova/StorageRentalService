@@ -1,8 +1,9 @@
-$( "#reservation_storageTypeId" ).change(function () {
-    $( "#reservation_storageVolumeId" ).prop("disabled", false);
-})
 $(document).ready(function(){
     $("#reservation_storageVolumeId").chained("#reservation_storageTypeId");
+    $("#reservation_storageVolumeId").prop("disabled", true);
+})
+$( "#reservation_storageTypeId" ).on('click', function () {
+    $( "#reservation_storageVolumeId" ).prop("disabled", false);
 })
 $(".hasDeliveryDetails").prop("hidden", true);
 $("#delivery_dateFrom_year, #delivery_dateFrom_month, #delivery_dateFrom_day, #delivery_dateTo_day, #delivery_dateTo_month, #delivery_dateTo_year, #delivery_address, #delivery_phoneNumber ")

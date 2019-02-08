@@ -9,7 +9,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use App\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-
 abstract class FrontController extends AbstractController
 {
     /**

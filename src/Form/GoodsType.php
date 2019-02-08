@@ -16,7 +16,7 @@ class GoodsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('goodsPropertyId',EntityType::class, [
+            ->add('goodsPropertyId', EntityType::class, [
                 'class' => GoodsProperty::class,
             ])
             ->add('details', TextareaType::class, ['required' => true])

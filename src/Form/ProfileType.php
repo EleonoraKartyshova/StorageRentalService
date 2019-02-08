@@ -16,13 +16,13 @@ class ProfileType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('login',TextType::class, ['required' => true])
-            ->add('password',TextType::class, ['required' => true])
-            ->add('companyTitle',TextType::class, ['required' => true])
-            ->add('phoneNumber',TextType::class, ['required' => true])
-            ->add('name',TextType::class, ['required' => true])
-            ->add('address',TextType::class, ['required' => true])
-            ->add('photo',FileType::class, ['required' => false])
+            ->add('login', TextType::class, ['required' => true])
+            ->add('password', TextType::class, ['required' => true])
+            ->add('companyTitle', TextType::class, ['required' => true])
+            ->add('phoneNumber', TextType::class, ['required' => true])
+            ->add('name', TextType::class, ['required' => true])
+            ->add('address', TextType::class, ['required' => true])
+            ->add('photo', FileType::class, ['required' => false])
         ;
     }
 

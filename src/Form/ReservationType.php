@@ -26,7 +26,7 @@ class ReservationType extends AbstractType
             ->add('dateFrom')
             ->add('dateTo')
             ->add('details', TextareaType::class, ['required' => true])
-            ->add('hasDelivery', ChoiceType::class,  [
+            ->add('hasDelivery', ChoiceType::class, [
                 'choices'  => [
                     'I will pick it up' => false,
                     'I need a delivery' => true,
@@ -42,7 +42,7 @@ class ReservationType extends AbstractType
             ->add('storageVolumeId', EntityType::class, [
                 'class' => StorageVolume::class,
                 //'disabled' => true,
-                'choice_attr' => function(StorageVolume $volume){
+                'choice_attr' => function (StorageVolume $volume) {
                     return array('class' => strval($volume->getStorageTypeId()->getId()));
                 },
             ])

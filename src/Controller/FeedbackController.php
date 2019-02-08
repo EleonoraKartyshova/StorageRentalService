@@ -17,12 +17,16 @@ class FeedbackController extends FrontController
     {
         $form = $this->createForm(FeedbackType::class);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
+
             $this->addFlash('success', 'Message was sent successfully!');
+
             return $this->redirectToRoute('contact_us');
         }
         return $this->render('page/contact_us.html.twig', array(

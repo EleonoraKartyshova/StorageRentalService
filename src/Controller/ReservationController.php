@@ -19,7 +19,6 @@ use App\Form\ReservationType;
 use App\Form\BaseReservationFormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-
 class ReservationController extends AbstractController
 {
     /**
@@ -41,35 +40,47 @@ class ReservationController extends AbstractController
         $formReservation = $this->createForm(ReservationType::class);
         $formGoods = $this->createForm(GoodsType::class);
         $formDelivery = $this->createForm(DeliveryType::class);
+
         $user = $security->getUser();
+
         $formReservation->handleRequest($request);
         $formGoods->handleRequest($request);
         $formDelivery->handleRequest($request);
+
         if ($formReservation->isSubmitted() && $formGoods->isSubmitted() && !($formReservation['hasDelivery']->getData())) {
             $reservation = $formReservation->getData();
             $reservation->setUserId($user);
+
             $goods = $formGoods->getData();
             $goods->setReservationId($reservation);
+
             $reservation->setGoodsId($goods);
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($reservation);
             $entityManager->persist($goods);
             $entityManager->flush();
+
             return $this->redirectToRoute('reservations_list');
         }
         if ($formReservation->isSubmitted() && $formGoods->isSubmitted() && $formDelivery->isSubmitted() && ($formReservation['hasDelivery']->getData())) {
             $reservation = $formReservation->getData();
             $reservation->setUserId($user);
+
             $goods = $formGoods->getData();
             $goods->setReservationId($reservation);
+
             $reservation->setGoodsId($goods);
+
             $delivery = $formDelivery->getData();
             $delivery->setReservationId($reservation);
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($reservation);
             $entityManager->persist($goods);
             $entityManager->persist($delivery);
             $entityManager->flush();
+
             return $this->redirectToRoute('reservations_list');
         }
         return $this->render('page/create_reservation.html.twig', array(
@@ -86,17 +97,27 @@ class ReservationController extends AbstractController
      */
     public function getReservation()
     {
-
+        return true;
     }
 
     /**
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @Route("/reservation/list", name="reservations_list")
      */
-    public function getAllReservations()
+    public function getAllReservations(Security $security)
     {
-        return $this->render('page/my_reservations_list.html.twig', array(
+        $user = $security->getUser();
+        $userId = $user->getId();
+
+        $reservations = $this->getDoctrine()
+            ->getRepository(Reservation::class)
+            ->findBy([
+                'userId' => $userId,
+            ]);
+
+        return $this->render('page/my_reservations_list.html.twig', [
             'reservation' => 'active',
-        ));
+            'reservations' => $reservations
+        ]);
     }
 }

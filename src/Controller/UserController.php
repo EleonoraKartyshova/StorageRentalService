@@ -21,9 +21,10 @@ use App\Form\ProfileType;
 use Symfony\Component\Form\ClearableErrorsInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-
 class UserController extends FrontController
 {
+    const IMAGES_DIR = 'images/';
+
     /**
      * @Route("/registration", name="registration")
      */
@@ -31,12 +32,16 @@ class UserController extends FrontController
     {
         $form = $this->createForm(UserType::class);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
+
             $this->addFlash('success', 'Saved!');
+
             return $guardHandler->authenticateUserAndHandleSuccess(
                 $user,
                 $request,
@@ -60,6 +65,7 @@ class UserController extends FrontController
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
+
         return $this->render('page/login.html.twig', [
             'last_login' => $lastUsername,
             'error' => $error,
@@ -93,39 +99,42 @@ class UserController extends FrontController
     public function editProfile(Request $request, Security $security)
     {
         $form = $this->createForm(ProfileType::class);
+
         $authUser = $security->getUser();
+
         if ($request->request->get('removeUserProfilePhoto')) {
-            $directory = "images/";
-            $filename = $authUser->getPhoto();
-            unlink($directory.$filename);
-            $entityManager = $this->getDoctrine()->getManager();
+            unlink(self::IMAGES_DIR . $authUser->getPhoto());
+
             $authUser->setPhoto(null);
+
+            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
+
             $this->addFlash('success', 'Saved!');
+
             return $this->redirectToRoute('edit_profile');
         }
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->get('password')->isValid() &&
-        $form->get('companyTitle')->isValid() &&
-        $form->get('phoneNumber')->isValid() &&
-        $form->get('name')->isValid() &&
-        $form->get('address')->isValid() && $form->get('photo')->isValid()) {
-
-            $entityManager = $this->getDoctrine()->getManager();
+        if ($form->isSubmitted() && $this->validateNonUniqueFields($form)) {
             $formData = $form->getData();
+
             $formDataLogin = $formData->getLogin();
             $formDataPassword = $formData->getPassword();
             $formDataCompanyTitle = $formData->getCompanyTitle();
             $formDataPhoneNumber = $formData->getPhoneNumber();
             $formDataName = $formData->getName();
             $formDataAddress = $formData->getAddress();
+
             $file = $form['photo']->getData();
+
             if (!empty($file)) {
-                $directory = "images/";
                 $filename = $file->getClientOriginalName();
-                $file->move($directory, $filename);
+
+                $file->move(self::IMAGES_DIR, $filename);
+
                 $authUser->setPhoto($filename);
             }
+
             if ($formDataLogin != $authUser->getLogin() && $form->isValid()) {
                 $authUser->setLogin($formDataLogin);
                 $authUser->setPassword($formDataPassword);
@@ -135,19 +144,33 @@ class UserController extends FrontController
                 $authUser->setAddress($formDataAddress);
             } elseif ($formDataLogin == $authUser->getLogin()) {
                 $form->clearErrors(true);
+
                 $authUser->setPassword($formDataPassword);
                 $authUser->setCompanyTitle($formDataCompanyTitle);
                 $authUser->setPhoneNumber($formDataPhoneNumber);
                 $authUser->setName($formDataName);
                 $authUser->setAddress($formDataAddress);
             }
+
+            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
+
             $this->addFlash('success', 'Saved!');
+
             return $this->redirectToRoute('edit_profile');
         }
         return $this->render('page/edit_profile.html.twig', [
             'profile' => 'active',
             'profile_user_form' => $form->createView(),
         ]);
+    }
+
+    public function validateNonUniqueFields($form)
+    {
+        return $form->get('password')->isValid() &&
+            $form->get('companyTitle')->isValid() &&
+            $form->get('phoneNumber')->isValid() &&
+            $form->get('name')->isValid() &&
+            $form->get('address')->isValid() && $form->get('photo')->isValid();
     }
 }
