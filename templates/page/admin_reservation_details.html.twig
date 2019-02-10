@@ -1,0 +1,90 @@
+{% block content %}
+    <!-- Modal -->
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Reservation details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table-striped table">
+                        <tbody>
+                        <tr>
+                            <th scope="row">ID:</th>
+                            <td>{{ reservation.id }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Date from:</th>
+                            <td>{{ reservation.dateFrom|date('Y-m-d') }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Date to:</th>
+                            <td>{{ reservation.dateTo|date('Y-m-d') }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Storage type:</th>
+                            <td>{{ reservation.storageTypeId }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Volume size:</th>
+                            <td>{{ reservation.storageVolumeId }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">User Id:</th>
+                            <td>{{ reservation.userId }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Has delivery:</th>
+                            <td>
+                                {% if reservation.hasDelivery==1 %}
+                                    yes
+                                {% else %}
+                                    no
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Storage details:</th>
+                            <td>{{ reservation.details }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Goods Id:</th>
+                            <td>{{ reservation.goodsId.id }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Goods property:</th>
+                            <td>{{ reservation.goodsId.goodsPropertyId }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Goods details:</th>
+                            <td>{{ reservation.goodsId.details }}</td>
+                        </tr>
+                        {% if reservation.hasDelivery==1 %}
+                            <tr>
+                                <th scope="row">Delivery ID:</th>
+                                <td>{{ delivery.id }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Delivery date from:</th>
+                                <td>{{ delivery.dateFrom|date('Y-m-d') }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Delivery date to:</th>
+                                <td>{{ delivery.dateTo|date('Y-m-d') }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Delivery address:</th>
+                                <td>{{ delivery.address }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Phone number:</th>
+                                <td>{{ delivery.phoneNumber }}</td>
+                            </tr>
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+{% endblock %}

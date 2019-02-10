@@ -19,7 +19,19 @@ $( "#reservation_hasDelivery").change(function () {
             .prop("required", false).prop("disabled", true);
     }
 })
-// $("#reservation_userId").val("5").prop("selected", true);
-// $(".hasDeliveryDetails").on('submit', function() {
-//     return false;
-// })
+$(document).ready(function () {
+    $('.reservation-details').click(function() {
+        var url = Routing.generate('reservation_details', {id: $(this).attr('id')});
+        $.get(url, function (data) {
+            $(".modal-content").html(data);
+        });
+    });
+});
+$(document).ready(function () {
+    $('.admin-reservation-details').click(function() {
+        var url = Routing.generate('admin_reservation_details', {id: $(this).attr('id')});
+        $.get(url, function (data) {
+            $(".modal-content").html(data);
+        });
+    });
+});

@@ -22,16 +22,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 class ReservationController extends AbstractController
 {
     /**
-     * @Route("/reservation", name="reservation")
-     */
-    public function index()
-    {
-        return $this->render('reservation/index.html.twig', [
-            'controller_name' => 'ReservationController',
-        ]);
-    }
-
-    /**
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      * @Route("/reservation/create", name="create_reservation")
      */
@@ -93,11 +83,38 @@ class ReservationController extends AbstractController
 
     /**
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
-     * @Route("/reservation/details", name="reservation_details")
+     * @Route("/reservation_details/{id}", name="reservation_details", requirements={"id"="\d+"}, options={"expose": true})
      */
-    public function getReservation()
+    public function getReservation($id, Security $security)
     {
-        return true;
+        $user = $security->getUser();
+        $userId = $user->getId();
+
+        $reservation = $this->getDoctrine()
+            ->getRepository(Reservation::class)
+            ->findOneBy([
+                'id' => $id,
+                'userId' => $userId,
+            ]);
+
+        if ($reservation->getHasDelivery()) {
+            $delivery = $this->getDoctrine()
+                ->getRepository(Delivery::class)
+                ->findOneBy([
+                    'reservationId' => $id,
+                ]);
+
+            return $this->render('page/reservation_details.html.twig', [
+                'reserve' => 'active',
+                'reservation' => $reservation,
+                'delivery' => $delivery,
+            ]);
+        } else {
+            return $this->render('page/reservation_details.html.twig', [
+                'reserve' => 'active',
+                'reservation' => $reservation,
+            ]);
+        }
     }
 
     /**
@@ -116,7 +133,7 @@ class ReservationController extends AbstractController
             ]);
 
         return $this->render('page/my_reservations_list.html.twig', [
-            'reservation' => 'active',
+            'reserve' => 'active',
             'reservations' => $reservations
         ]);
     }

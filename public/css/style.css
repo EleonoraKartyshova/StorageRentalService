@@ -17,8 +17,8 @@ body>.container {
 .custom-file-label:after {
     content: "Choose a new profile photo";
 }
-.deliveryFormInput select {
-
+.mynav-header {
+    height: 82px;
 }
 /*.custom-file-label { opacity: 0; }*/
 /*.custom-file-input { opacity: 1; }*/

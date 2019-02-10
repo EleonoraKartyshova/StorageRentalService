@@ -1,6 +1,6 @@
 {# templates/header/header.html.twig #}
     {% block header %}
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top mynav-header">
             <a class="navbar-brand" href="{{ path('about_us') }}">Storage rental service</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -21,12 +21,12 @@
                         <a class="nav-link" href="{{ path('page_show', {'page': 'contact_us'}) }}">Contact us</a>
                     </li>
                     {% if is_granted('ROLE_USER') %}
-                        <li class="nav-item dropdown {% if reservation is defined %} {{ reservation }} {% endif %}">
+                        <li class="nav-item dropdown {% if reserve is defined %} {{ reserve }} {% endif %}">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Reservation
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ path('create_reservation') }}">Create reservation</a>
+                                <a class="dropdown-item" href="{{ path('create_reservation') }}">Create Reservation</a>
                                 <a class="dropdown-item" href="{{ path('reservations_list') }}">My Reservations list</a>
                             </div>
                         </li>
@@ -51,17 +51,14 @@
                     </li>
                 </div>
                     {% elseif is_granted('ROLE_ADMIN') %}
-                        <li class="nav-item dropdown {% if reservation is defined %} {{ reservation }} {% endif %}">
+                        <li class="nav-item dropdown {% if admin is defined %} {{ admin }} {% endif %}">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Reservation
+                                Admin panel
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ path('create_reservation') }}">Create reservation</a>
-                                <a class="dropdown-item" href="{{ path('reservations_list') }}">My Reservations list</a>
+                                <a class="dropdown-item" href="{{ path('admin_reservations') }}">Reservations List</a>
+                                <a class="dropdown-item" href="#">Users list</a>
                             </div>
-                        </li>
-                        <li class="nav-item {% if admin_panel is defined %} {{ admin_panel }} {% endif %}">
-                            <a class="nav-link" href="#">Admin panel</a>
                         </li>
                         <li class="nav-item {% if logout is defined %} {{ logout }} {% endif %}">
                             <a class="nav-link" href="{{ path('app_logout') }}">Logout</a>

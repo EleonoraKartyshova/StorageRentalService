@@ -1,18 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}My Reservations list{% endblock %}
+{% block title %}Reservations list{% endblock %}
 
 {% block content %}
     <div class="col-md-10">
-        <h1>This page is "My Reservations list"</h1>
+        <h1>This page is "Reservations list"</h1>
 
         <table class="table-bordered table-hover table">
             <thead class="thead-dark">
             <tr>
+                <th>ID</th>
                 <th>Date from</th>
                 <th>Date to</th>
                 <th>Storage type</th>
                 <th>Volume size</th>
+                <th>User Id</th>
                 <th>Has delivery</th>
                 <th>Reservation details</th>
             </tr>
@@ -20,10 +22,12 @@
             <tbody>
             {% for reservation in reservations %}
                 <tr>
+                    <td>{{ reservation.id }}</td>
                     <td>{{ reservation.dateFrom|date('Y-m-d') }}</td>
                     <td>{{ reservation.dateTo|date('Y-m-d') }}</td>
                     <td>{{ reservation.storageTypeId }}</td>
                     <td>{{ reservation.storageVolumeId }}</td>
+                    <td>{{ reservation.userId }}</td>
                     <td>
                         {% if reservation.hasDelivery==1 %}
                             yes
@@ -31,7 +35,7 @@
                             no
                         {% endif %}
                     </td>
-                    <td><a href="#" class="text-dark btn btn-link reservation-details" id="{{ reservation.id }}" data-toggle="modal" data-target="#reservationModal">Show details</a></td>
+                    <td><a href="#" class="text-dark btn btn-link admin-reservation-details" id="{{ reservation.id }}" data-toggle="modal" data-target="#reservationModal">Show details</a></td>
                 </tr>
             {% endfor %}
             </tbody>
