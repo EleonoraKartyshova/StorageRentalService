@@ -19,7 +19,7 @@ use App\Form\ReservationType;
 use App\Form\BaseReservationFormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-class AdminController extends AbstractController
+class AdminReservationController extends AbstractController
 {
     /**
      * @IsGranted("ROLE_ADMIN")

@@ -35,3 +35,19 @@ $(document).ready(function () {
         });
     });
 });
+$(document).ready(function () {
+    $('.admin-deactivate-user').click(function() {
+        var url = Routing.generate('admin_deactivate_user', {id: $(this).attr('id')});
+        $.get(url, function (data) {
+            $(".modal-content").html(data);
+        });
+    });
+});
+$(document).ready(function () {
+    $('.admin-activate-user').click(function() {
+        var url = Routing.generate('admin_activate_user', {id: $(this).attr('id')});
+        $.get(url, function (data) {
+            $(".modal-content").html(data);
+        });
+    });
+});

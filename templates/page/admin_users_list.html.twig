@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Users list{% endblock %}
+
+{% block content %}
+            <h1>This page is "Users list"</h1>
+            {% for flash in app.session.flashbag.get('success') %}
+                <div class="alert alert-success">{{ flash }}</div>
+            {% endfor %}
+            <table class="table-bordered table-hover table">
+                <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Login</th>
+                    <th>Password</th>
+                    <th>Email</th>
+                    <th>Company title</th>
+                    <th>Phone number</th>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Picture</th>
+                    <th>Role</th>
+                    <th>Is active</th>
+                    <th>Activate / deactivate</th>
+                    <th>Edit</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.login }}</td>
+                        <td>{{ user.password }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.companyTitle }}</td>
+                        <td>{{ user.phoneNumber }}</td>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.address }}</td>
+                        <td>{{ user.photo }}</td>
+                        <td>{{ user.role }}</td>
+                        {% if user.isActive==1 %}
+                            <td>yes</td>
+                            <td><a href="#" class="text-dark btn btn-link admin-deactivate-user" id="{{ user.id }}" data-toggle="modal" data-target="#adminDeactivateUserModal">deactivate</a></td>
+                        {% else %}
+                            <td>no</td>
+                            <td><a href="#" class="text-dark btn btn-link admin-activate-user" id="{{ user.id }}" data-toggle="modal" data-target="#adminActivateUserModal">activate</a></td>
+                        {% endif %}
+                        <td><a href="#" class="text-dark btn btn-link admin-user-edit" id="{{ user.id }}" data-toggle="modal" data-target="#adminEditUserModal">edit</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="modal fade" id="adminDeactivateUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="adminActivateUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="adminEditUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    </div>
+                </div>
+            </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="..//js/jquery.chained.min.js"></script>
+    <script src="..//js/functions.js"></script>
+{% endblock %}

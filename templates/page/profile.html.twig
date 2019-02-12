@@ -5,74 +5,48 @@
 {% block content %}
     <div class="col-md-6">
         <h1>This page is "Profile"</h1>
-        <div class="row">
-            <div class="col-md-6">
-                Login:
-            </div>
-            <div class="col-md-6">
-                {{ app.user.login }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                Password:
-            </div>
-            <div class="col-md-6">
-                {{ app.user.password }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                Email:
-            </div>
-            <div class="col-md-6">
-                {{ app.user.email }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                Company title:
-            </div>
-            <div class="col-md-6">
-                {{ app.user.companyTitle }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                Phone number:
-            </div>
-            <div class="col-md-6">
-                {{ app.user.phoneNumber }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                Name:
-            </div>
-            <div class="col-md-6">
-                {{ app.user.name }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                Address:
-            </div>
-            <div class="col-md-6">
-                {{ app.user.address }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                Profile photo:
-            </div>
-            <div class="col-md-6">
-                {% if app.user.photo is not null %}
-                    <img class="nav-profile-img rounded-circle profile-user_photo" src="{{ asset('images/') }}{{ asset(app.user.photo) }}">
-                {% else %}
-                    <img class="nav-profile-img rounded-circle profile-user_photo" src="{{ asset('images/defaultUserPhoto.png') }}">
-                {% endif %}
-            </div>
-        </div>
+        <table class="table-striped table">
+            <tbody>
+                <tr>
+                    <th scope="row">Login:</th>
+                    <td>{{ app.user.login }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Password:</th>
+                    <td>{{ app.user.password }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Email:</th>
+                    <td>{{ app.user.email }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Company title:</th>
+                    <td>{{ app.user.companyTitle }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Phone number:</th>
+                    <td>{{ app.user.phoneNumber }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Name:</th>
+                    <td>{{ app.user.name }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Address:</th>
+                    <td>{{ app.user.address }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Profile photo:</th>
+                    <td>
+                        {% if app.user.photo is not null %}
+                            <img class="nav-profile-img rounded-circle profile-user_photo" src="{{ asset('images/') }}{{ asset(app.user.photo) }}">
+                        {% else %}
+                            <img class="nav-profile-img rounded-circle profile-user_photo" src="{{ asset('images/defaultUserPhoto.png') }}">
+                        {% endif %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 {% endblock %}
 
