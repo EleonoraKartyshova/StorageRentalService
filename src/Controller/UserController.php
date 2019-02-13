@@ -135,22 +135,22 @@ class UserController extends FrontController
                 $authUser->setPhoto($filename);
             }
 
-            if ($formDataLogin != $authUser->getLogin() && $form->isValid()) {
+            if ($formDataLogin !== $authUser->getLogin() && $form->get('login')->isValid()) {
                 $authUser->setLogin($formDataLogin);
-                $authUser->setPassword($formDataPassword);
-                $authUser->setCompanyTitle($formDataCompanyTitle);
-                $authUser->setPhoneNumber($formDataPhoneNumber);
-                $authUser->setName($formDataName);
-                $authUser->setAddress($formDataAddress);
-            } elseif ($formDataLogin == $authUser->getLogin()) {
+            } elseif ($formDataLogin === $authUser->getLogin()) {
                 $form->clearErrors(true);
-
-                $authUser->setPassword($formDataPassword);
-                $authUser->setCompanyTitle($formDataCompanyTitle);
-                $authUser->setPhoneNumber($formDataPhoneNumber);
-                $authUser->setName($formDataName);
-                $authUser->setAddress($formDataAddress);
+            } elseif ($formDataLogin !== $authUser->getLogin() && $form->get('login')->isValid() == false) {
+                return $this->render('page/edit_profile.html.twig', [
+                    'profile' => 'active',
+                    'profile_user_form' => $form->createView(),
+                ]);
             }
+
+            $authUser->setPassword($formDataPassword);
+            $authUser->setCompanyTitle($formDataCompanyTitle);
+            $authUser->setPhoneNumber($formDataPhoneNumber);
+            $authUser->setName($formDataName);
+            $authUser->setAddress($formDataAddress);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();

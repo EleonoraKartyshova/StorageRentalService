@@ -11,7 +11,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                    <form action="/admin/deactivate_user/{{ user.id }}" method="post">
+                    <form action="{{ path('admin_deactivate_user', {'id': user.id}) }}" method="post">
                         <input type="hidden" name="deactivateUser" value="true">
                         <button type="submit" class="btn btn-primary">Yes</button>
                     </form>

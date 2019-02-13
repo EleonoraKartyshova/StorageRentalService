@@ -29,6 +29,14 @@ $(document).ready(function(){
             $(".modal-content").html(data);
         });
     });
+
+    $('.admin-edit-user').click(function() {
+        var url = Routing.generate('admin_edit_user', {id: $(this).attr('id')});
+        console.log(url);
+        $.get(url, function (data) {
+            $(".modal-content").html(data);
+        });
+    });
 })
 
 $( "#reservation_storageTypeId" ).on('click', function () {

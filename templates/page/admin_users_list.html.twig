@@ -45,7 +45,7 @@
                             <td>no</td>
                             <td><a href="#" class="text-dark btn btn-link admin-activate-user" id="{{ user.id }}" data-toggle="modal" data-target="#adminActivateUserModal">activate</a></td>
                         {% endif %}
-                        <td><a href="#" class="text-dark btn btn-link admin-user-edit" id="{{ user.id }}" data-toggle="modal" data-target="#adminEditUserModal">edit</a></td>
+                        <td><a href="#" class="text-dark btn btn-link admin-edit-user" id="{{ user.id }}" data-toggle="modal" data-target="#adminEditUserModal">edit</a></td>
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -79,4 +79,5 @@
     <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     {{ encore_entry_script_tags('index') }}
+    {{ encore_entry_script_tags('chained') }}
 {% endblock %}

@@ -1,0 +1,28 @@
+{% block content %}
+    <!-- Modal -->
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"> Edit user</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{ form_start(edit_user_form, {'action': path('admin_edit_user', {'id': user.id} )}) }}
+                    {{ form_row(edit_user_form.login, {'attr': {'placeholder': user.login}}) }}
+                    {{ form_row(edit_user_form.email, {'attr': {'placeholder': user.email}}) }}
+                    {{ form_row(edit_user_form.password, {'value': user.password}) }}
+                    {{ form_row(edit_user_form.companyTitle, {'value': user.companyTitle}) }}
+                    {{ form_row(edit_user_form.phoneNumber, {'value': user.phoneNumber}) }}
+                    {{ form_row(edit_user_form.name, {'value': user.name}) }}
+                    {{ form_row(edit_user_form.address, {'value': user.address}) }}
+                    {{ form_row(edit_user_form.role, {'value': user.role}) }}
+                    {{ form_row(edit_user_form.photo, {'value': user.photo}) }}
+                    <div class="modal-footer">
+                        <button type="reset" class="btn btn-default">Clear</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                    {{ form_end(edit_user_form) }}
+                </div>
+
+{% endblock %}
