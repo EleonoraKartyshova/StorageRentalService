@@ -37,7 +37,7 @@ class ReservationController extends AbstractController
         $formGoods->handleRequest($request);
         $formDelivery->handleRequest($request);
 
-        if ($formReservation->isSubmitted() && $formGoods->isSubmitted() && !($formReservation['hasDelivery']->getData())) {
+        if ($this->checkRequiredForms($formReservation, $formGoods) && !($formReservation['hasDelivery']->getData())) {
             $reservation = $formReservation->getData();
             $reservation->setUserId($user);
 
@@ -53,7 +53,7 @@ class ReservationController extends AbstractController
 
             return $this->redirectToRoute('reservations_list');
         }
-        if ($formReservation->isSubmitted() && $formGoods->isSubmitted() && $formDelivery->isSubmitted() && ($formReservation['hasDelivery']->getData())) {
+        if ($this->checkRequiredForms($formReservation, $formGoods, $formDelivery) && ($formReservation['hasDelivery']->getData())) {
             $reservation = $formReservation->getData();
             $reservation->setUserId($user);
 
@@ -136,5 +136,22 @@ class ReservationController extends AbstractController
             'reserve' => 'active',
             'reservations' => $reservations
         ]);
+    }
+
+    private function checkRequiredForms($formReservation, $formGoods, $formDelivery = null)
+    {
+        if ($formDelivery == null) {
+            return $formReservation->isSubmitted() &&
+                $formGoods->isSubmitted();
+//                $formReservation->isValid() &&
+//                $formGoods->isValid();
+        } else {
+            return $formReservation->isSubmitted() &&
+                $formGoods->isSubmitted() &&
+                $formDelivery->isSubmitted();
+//                $formReservation->isValid() &&
+//                $formGoods->isValid() &&
+//                $formDelivery->isValid();
+        }
     }
 }

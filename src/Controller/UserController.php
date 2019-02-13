@@ -165,7 +165,7 @@ class UserController extends FrontController
         ]);
     }
 
-    public function validateNonUniqueFields($form)
+    private function validateNonUniqueFields($form)
     {
         return $form->get('password')->isValid() &&
             $form->get('companyTitle')->isValid() &&

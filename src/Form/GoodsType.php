@@ -18,6 +18,7 @@ class GoodsType extends AbstractType
         $builder
             ->add('goodsPropertyId', EntityType::class, [
                 'class' => GoodsProperty::class,
+                'required' => true
             ])
             ->add('details', TextareaType::class, ['required' => true])
         ;

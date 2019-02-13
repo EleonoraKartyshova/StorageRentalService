@@ -27,10 +27,10 @@
         {{ form_row(reservation_form.hasDelivery, { 'label': 'At the end of the storage period I want to:' }) }}
         <div class="hasDeliveryDetails" hidden disabled>
             {{ form_start(delivery_form) }}
-            {{ form_row(delivery_form.dateFrom, {'attr': {'class': 'deliveryFormInput'} }) }}
-            {{ form_row(delivery_form.dateTo, {'attr': {'class': 'deliveryFormInput'} }) }}
-            {{ form_row(delivery_form.address, {'attr': {'class': 'deliveryFormInput'} }) }}
-            {{ form_row(delivery_form.phoneNumber, {'attr': {'class': 'deliveryFormInput'} }) }}
+            {{ form_row(delivery_form.dateFrom, {'attr': {'class': 'delivery-required'} }) }}
+            {{ form_row(delivery_form.dateTo, {'attr': {'class': 'delivery-required'} }) }}
+            {{ form_row(delivery_form.address, {'attr': {'class': 'delivery-required'} }) }}
+            {{ form_row(delivery_form.phoneNumber, {'attr': {'class': 'delivery-required'} }) }}
         </div>
         <br>
         <div class="text-right">
@@ -46,6 +46,6 @@
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
-    <script src="..//js/jquery.chained.min.js"></script>
-    <script src="..//js/functions.js"></script>
+    {{ encore_entry_script_tags('index') }}
+    {{ encore_entry_script_tags('chained') }}
 {% endblock %}
