@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Storage types{% endblock %}
+
+{% block content %}
+            <h1>This page is "Storage types"</h1>
+            {% for flash in app.session.flashbag.get('success') %}
+                <div class="alert alert-success">{{ flash }}</div>
+            {% endfor %}
+            <table class="table-bordered table-hover table">
+                <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Created date</th>
+                    <th>Is active</th>
+                    <th>Activate / deactivate</th>
+                    <th>Edit</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for storage_type in storage_types %}
+                    <tr>
+                        <td>{{ storage_type.id }}</td>
+                        <td>{{ storage_type.title }}</td>
+                        <td>{{ storage_type.createdDate|date('Y-m-d') }}</td>
+                        {% if storage_type.isActive==1 %}
+                            <td>yes</td>
+                            <td><a href="#" class="text-dark btn btn-link admin-deactivate-storage-type" id="{{ storage_type.id }}" data-toggle="modal" data-target="#adminDeactivateStorageTypeModal">deactivate</a></td>
+                        {% else %}
+                            <td>no</td>
+                            <td><a href="#" class="text-dark btn btn-link admin-activate-storage-type" id="{{ storage_type.id }}" data-toggle="modal" data-target="#adminActivateStorageTypeModal">activate</a></td>
+                        {% endif %}
+                        <td><a href="#" class="text-dark btn btn-link admin-edit-storage-type" id="{{ storage_type.id }}" data-toggle="modal" data-target="#adminEditStorageTypeModal">edit</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="modal fade" id="adminDeactivateStorageTypeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="adminActivateStorageTypeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="adminEditStorageTypeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    </div>
+                </div>
+            </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    {{ encore_entry_script_tags('index') }}
+    {{ encore_entry_script_tags('chained') }}
+{% endblock %}

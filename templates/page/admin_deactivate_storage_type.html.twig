@@ -1,18 +1,18 @@
 {% block content %}
     <!-- Modal -->
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel"> Activate user</h5>
+                    <h5 class="modal-title" id="exampleModalLabel"> Deactivate storage type</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    Are you sure that you want to activate this user?
+                    Are you sure that you want to deactivate this storage type?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                    <form action="{{ path('admin_activate_user', {'id': user.id}) }}" method="post">
-                        <input type="hidden" name="activateUser" value="true">
+                    <form action="{{ path('admin_deactivate_storage_type', {'id': storage_type.id}) }}" method="post">
+                        <input type="hidden" name="deactivateStorageType" value="true">
                         <button type="submit" class="btn btn-primary">Yes</button>
                     </form>
                 </div>

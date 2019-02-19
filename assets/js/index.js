@@ -37,6 +37,28 @@ $(document).ready(function(){
             $(".modal-content").html(data);
         });
     });
+
+    $('.admin-deactivate-storage-type').click(function() {
+        var url = Routing.generate('admin_deactivate_storage_type', {id: $(this).attr('id')});
+        $.get(url, function (data) {
+            $(".modal-content").html(data);
+        });
+    });
+
+    $('.admin-activate-storage-type').click(function() {
+        var url = Routing.generate('admin_activate_storage_type', {id: $(this).attr('id')});
+        $.get(url, function (data) {
+            $(".modal-content").html(data);
+        });
+    });
+
+    $('.admin-edit-storage-type').click(function() {
+        var url = Routing.generate('admin_edit_storage_type', {id: $(this).attr('id')});
+        console.log(url);
+        $.get(url, function (data) {
+            $(".modal-content").html(data);
+        });
+    });
 })
 
 $( "#reservation_storageTypeId" ).on('click', function () {
@@ -45,14 +67,14 @@ $( "#reservation_storageTypeId" ).on('click', function () {
 
 $(".hasDeliveryDetails").prop("hidden", true);
 
-$(".delivery-required select input").prop("required", false).prop("disabled", true);
+$(".delivery-required select, input.delivery-required").prop("required", false).prop("disabled", true);
 
 $( "#reservation_hasDelivery").change(function () {
     if ($(this).val() == 1) {
         $( ".hasDeliveryDetails " ).prop("hidden", false);
-        $(".delivery-required select input").prop("required", true).prop("disabled", false);
+        $(".delivery-required select, input.delivery-required").prop("required", true).prop("disabled", false);
     } else {
         $( ".hasDeliveryDetails " ).prop("hidden", true);
-        $(".delivery-required select input").prop("required", false).prop("disabled", true);
+        $(".delivery-required select, input.delivery-required").prop("required", false).prop("disabled", true);
     }
 })
