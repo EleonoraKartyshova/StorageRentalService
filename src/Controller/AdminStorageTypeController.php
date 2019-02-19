@@ -86,7 +86,7 @@ class AdminStorageTypeController extends AbstractController
      * @IsGranted("ROLE_ADMIN")
      * @Route("/admin/edit_storage_type/{id}", name="admin_edit_storage_type", requirements={"id"="\d+"}, options={"expose": true})
      */
-    public function editUser($id, Request $request)
+    public function editStorageType($id, Request $request)
     {
         $form = $this->createForm(EditStorageType::class);
         $form->handleRequest($request);

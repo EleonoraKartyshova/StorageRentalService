@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Storage volumes{% endblock %}
+
+{% block content %}
+            <h1>This page is "Storage volumes"</h1>
+            {% for flash in app.session.flashbag.get('success') %}
+                <div class="alert alert-success">{{ flash }}</div>
+            {% endfor %}
+            <table class="table-bordered table-hover table">
+                <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Storage Volume</th>
+                    <th>Storage type</th>
+                    <th>Edit</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for storage_volume in storage_volumes %}
+                    <tr>
+                        <td>{{ storage_volume.id }}</td>
+                        <td>{{ storage_volume.volume }}</td>
+                        <td>{{ storage_volume.storageTypeId.title }}</td>
+                        <td><a href="#" class="text-dark btn btn-link admin-edit-storage-volume" id="{{ storage_volume.id }}" data-toggle="modal" data-target="#adminEditStorageVolumeModal">edit</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="modal fade" id="adminEditStorageVolumeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    </div>
+                </div>
+            </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    {{ encore_entry_script_tags('index') }}
+    {{ encore_entry_script_tags('chained') }}
+{% endblock %}

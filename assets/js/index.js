@@ -59,6 +59,14 @@ $(document).ready(function(){
             $(".modal-content").html(data);
         });
     });
+
+    $('.admin-edit-storage-volume').click(function() {
+        var url = Routing.generate('admin_edit_storage_volume', {id: $(this).attr('id')});
+        console.log(url);
+        $.get(url, function (data) {
+            $(".modal-content").html(data);
+        });
+    });
 })
 
 $( "#reservation_storageTypeId" ).on('click', function () {
