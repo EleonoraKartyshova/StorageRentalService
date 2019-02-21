@@ -30,7 +30,7 @@ class Feedback
 
     /**
      * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=20)
+     * @ORM\Column(type="string", length=30)
      */
     private $email;
 

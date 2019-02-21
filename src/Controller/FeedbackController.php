@@ -13,17 +13,33 @@ class FeedbackController extends FrontController
     /**
      * @Route("/page/contact_us", name="contact_us")
      */
-    public function feedback(Request $request)
+    public function feedback(Request $request, \Swift_Mailer $mailer)
     {
         $form = $this->createForm(FeedbackType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $form->getData();
+            $feedback = $form->getData();
 
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
+            $entityManager->persist($feedback);
             $entityManager->flush();
+
+            $message = (new \Swift_Message())
+                ->setSubject('Feedback message')
+                ->setFrom($feedback->getEmail())
+                ->setTo('eleonora.testmailer@gmail.com')
+                ->setBody(
+                    $this->renderView('page/feedback_mail.html.twig', [
+                        'subject' => $feedback->getSubject(),
+                        'text' => $feedback->getText(),
+                        'email' => $feedback->getEmail(),
+                        'name' => $feedback->getName(),
+                    ]),
+                    'text/html'
+                );
+
+            $mailer->send($message);
 
             $this->addFlash('success', 'Message was sent successfully!');
 
