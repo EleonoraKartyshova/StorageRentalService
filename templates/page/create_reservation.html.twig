@@ -24,7 +24,8 @@
         {{ form_row(goods_form.details) }}
 
         <hr><h3>Delivery details</h3>
-        {{ form_row(reservation_form.hasDelivery, { 'label': 'At the end of the storage period I want to:' }) }}
+        {{ form_label(reservation_form.hasDelivery, 'At the end of the storage period I want to:', {'label_attr': {'class': 'col-md-10'}}) }}
+        {{ form_widget(reservation_form.hasDelivery) }}
         <div class="hasDeliveryDetails" hidden disabled>
             {{ form_start(delivery_form) }}
             {{ form_row(delivery_form.dateFrom, {'attr': {'class': 'delivery-required'} }) }}

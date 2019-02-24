@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Reservation{% endblock %}
+
+{% block content %}
+    <div class="col-md-6">
+        <h1>Edit Reservation</h1>
+        {% for flash in app.session.flashbag.get('success') %}
+            <div class="alert alert-success">{{ flash }}</div>
+        {% endfor %}
+
+        {{ form_start(edit_reservation_form, {'action': path('admin_edit_reservation', {'id': reservation.id})}) }}
+        <div class="row">
+            <div class="col-md-4">Reservation ID: </div>
+            <div class="col-md-8">{{ reservation.id }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">User ID: </div>
+            <div class="col-md-8">{{ reservation.userId }}</div>
+        </div>
+
+        <hr><h3>Storage details</h3>
+        {{ form_row(edit_reservation_form.dateFrom) }}
+        {{ form_row(edit_reservation_form.dateTo) }}
+        {{ form_row(edit_reservation_form.storageTypeId, {'label': 'Storage type:'}) }}
+        {{ form_row(edit_reservation_form.storageVolumeId, {'label': 'Volume size:', 'attr': {'class': 'storage-volume-enabled'}}) }}
+        {{ form_row(edit_reservation_form.details) }}
+
+        <hr><h3>Goods details</h3>
+        {{ form_start(edit_goods_form) }}
+        {{ form_row(edit_goods_form.goodsPropertyId, {'label': 'Goods property:'}) }}
+        {{ form_row(edit_goods_form.details) }}
+
+        <hr><h3>Delivery details</h3>
+        {{ form_label(reservation_form.hasDelivery, 'At the end of the storage period I want to:', {'label_attr': {'class': 'col-md-10'}}) }}
+        {{ form_widget(reservation_form.hasDelivery) }}
+        <div class="hasDeliveryDetails" {% if reservation.hasDelivery==1 %} id="visible" {% endif %} >
+            {{ form_start(edit_delivery_form) }}
+            {{ form_row(edit_delivery_form.dateFrom, {'attr': {'class': 'delivery-required'} }) }}
+            {{ form_row(edit_delivery_form.dateTo, {'attr': {'class': 'delivery-required'} }) }}
+            {{ form_row(edit_delivery_form.address, {'attr': {'class': 'delivery-required'} }) }}
+            {{ form_row(edit_delivery_form.phoneNumber, {'attr': {'class': 'delivery-required'} }) }}
+        </div>
+        <br>
+        <div class="text-right">
+            <button type="reset" class="btn btn-default">Clear</button>
+            <a class="btn btn-secondary" href="{{ path('admin_reservations') }}" role="button">Cancel</a>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+        <div class="hasDeliveryDetails" hidden disabled>
+            {{ form_end(edit_delivery_form) }}
+        </div>
+        {{ form_end(edit_goods_form) }}
+        {{ form_end(edit_reservation_form) }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('index') }}
+    {{ encore_entry_script_tags('chained') }}
+{% endblock %}

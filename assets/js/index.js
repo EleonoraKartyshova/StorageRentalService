@@ -2,6 +2,8 @@ $(document).ready(function(){
     $("#reservation_storageVolumeId").chained("#reservation_storageTypeId");
     $("#reservation_storageVolumeId").prop("disabled", true).prop("required", true);
 
+    $('.storage-volume-enabled[id="reservation_storageVolumeId"]').prop("disabled", false).prop("required", true);
+
     $('.reservation-details').click(function() {
         var url = Routing.generate('reservation_details', {id: $(this).attr('id')});
         $.get(url, function (data) {
@@ -32,7 +34,6 @@ $(document).ready(function(){
 
     $('.admin-edit-user').click(function() {
         var url = Routing.generate('admin_edit_user', {id: $(this).attr('id')});
-        console.log(url);
         $.get(url, function (data) {
             $(".modal-content").html(data);
         });
@@ -54,7 +55,6 @@ $(document).ready(function(){
 
     $('.admin-edit-storage-type').click(function() {
         var url = Routing.generate('admin_edit_storage_type', {id: $(this).attr('id')});
-        console.log(url);
         $.get(url, function (data) {
             $(".modal-content").html(data);
         });
@@ -62,7 +62,6 @@ $(document).ready(function(){
 
     $('.admin-edit-storage-volume').click(function() {
         var url = Routing.generate('admin_edit_storage_volume', {id: $(this).attr('id')});
-        console.log(url);
         $.get(url, function (data) {
             $(".modal-content").html(data);
         });
@@ -74,8 +73,11 @@ $( "#reservation_storageTypeId" ).on('click', function () {
 })
 
 $(".hasDeliveryDetails").prop("hidden", true);
-
 $(".delivery-required select, input.delivery-required").prop("required", false).prop("disabled", true);
+
+$('.hasDeliveryDetails[id="visible"]').prop("hidden", false);
+$('.hasDeliveryDetails[id="visible"]').children().children().children("input.delivery-required").prop("required", true).prop("disabled", false);
+$('.hasDeliveryDetails[id="visible"]').children().children().children().children(".delivery-required select").prop("required", true).prop("disabled", false);
 
 $( "#reservation_hasDelivery").change(function () {
     if ($(this).val() == 1) {
