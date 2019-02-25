@@ -18,10 +18,11 @@ use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Security\Core\Security;
 use App\Form\ProfileType;
+use App\Form\ResetPasswordType;
 use Symfony\Component\Form\ClearableErrorsInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class UserController extends FrontController
+class UserController extends AbstractController
 {
     const IMAGES_DIR = 'images/';
 
@@ -162,6 +163,60 @@ class UserController extends FrontController
         return $this->render('page/edit_profile.html.twig', [
             'profile' => 'active',
             'profile_user_form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/login/reset_password", name="reset_password", options={"expose": true})
+     */
+    public function resetPassword(Request $request, \Swift_Mailer $mailer)
+    {
+        $resetPasswordForm = $this->createForm(ResetPasswordType::class);
+        $resetPasswordForm->handleRequest($request);
+
+        if ($resetPasswordForm->isSubmitted()) {
+            $email = $resetPasswordForm->getData()->getEmail();
+
+            $user = $this->getDoctrine()
+                ->getRepository(User::class)
+                ->findOneBy([
+                    'email' => $email,
+                    'isActive' => '1',
+                ]);
+
+            if ($user) {
+                $temporaryPassword = random_int(100000, 999999);
+
+                $user->setPassword($temporaryPassword);
+
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->flush();
+
+                $message = (new \Swift_Message())
+                    ->setSubject('Your new password')
+                    ->setFrom('eleonora.testmailer@gmail.com')
+                    ->setTo($email)
+                    ->setBody(
+                        $this->renderView('page/reset_password_mail.html.twig', [
+                            'name' => $user->getName(),
+                            'password' => $user->getPassword(),
+                        ]),
+                        'text/html'
+                    );
+
+                $mailer->send($message);
+
+                $this->addFlash('success', 'A new password has been sent to your email!');
+            } else {
+                $this->addFlash('error', 'You entered the wrong email when trying to reset your password');
+            }
+
+            return $this->redirectToRoute('app_login');
+        }
+
+        return $this->render('page/reset_password.html.twig', [
+            'login' => 'active',
+            'reset_password_form' => $resetPasswordForm->createView(),
         ]);
     }
 

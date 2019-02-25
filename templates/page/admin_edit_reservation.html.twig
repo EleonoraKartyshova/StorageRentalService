@@ -32,9 +32,9 @@
         {{ form_row(edit_goods_form.details) }}
 
         <hr><h3>Delivery details</h3>
-        {{ form_label(reservation_form.hasDelivery, 'At the end of the storage period I want to:', {'label_attr': {'class': 'col-md-10'}}) }}
-        {{ form_widget(reservation_form.hasDelivery) }}
-        <div class="hasDeliveryDetails" {% if reservation.hasDelivery==1 %} id="visible" {% endif %} >
+        {{ form_label(edit_reservation_form.hasDelivery, 'At the end of the storage period I want to:', {'label_attr': {'class': 'col-md-10'}}) }}
+        {{ form_widget(edit_reservation_form.hasDelivery) }}
+        <div class="hasDeliveryDetails" {% if reservation.hasDelivery==1 %} id="visible" {% endif %}><br>
             {{ form_start(edit_delivery_form) }}
             {{ form_row(edit_delivery_form.dateFrom, {'attr': {'class': 'delivery-required'} }) }}
             {{ form_row(edit_delivery_form.dateTo, {'attr': {'class': 'delivery-required'} }) }}
@@ -53,10 +53,4 @@
         {{ form_end(edit_goods_form) }}
         {{ form_end(edit_reservation_form) }}
     </div>
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    {{ encore_entry_script_tags('index') }}
-    {{ encore_entry_script_tags('chained') }}
 {% endblock %}

@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\FeedbackType;
 
-class FeedbackController extends FrontController
+class FeedbackController extends AbstractController
 {
     /**
      * @Route("/page/contact_us", name="contact_us")

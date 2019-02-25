@@ -121,6 +121,8 @@ class AdminReservationController extends AbstractController
             $entityManager->persist($goods);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Saved!');
+
             return $this->redirectToRoute('admin_edit_reservation', ['id' => $id]);
         }
 
@@ -140,6 +142,8 @@ class AdminReservationController extends AbstractController
             $entityManager->persist($goods);
             $entityManager->persist($delivery);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Saved!');
 
             return $this->redirectToRoute('admin_edit_reservation', ['id' => $id]);
         }

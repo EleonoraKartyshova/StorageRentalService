@@ -7,25 +7,38 @@
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
+    {% for flash in app.session.flashbag.get('success') %}
+        <div class="alert alert-success">{{ flash }}</div>
+    {% endfor %}
     <h1>Login</h1>
-     {#templates/page/login.html.twig#}
-
     {{ form_start(login_form) }}
     {{ form_row(login_form.login) }}
     {{ form_row(login_form.password) }}
     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-    <div class="text-right">
-        <div class="checkbox mb-3">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="checkbox mb-3 col-md-4 btn">
             <label>
                 <input type="checkbox" name="_remember_me"> Remember me
             </label>
         </div>
-        <button class="btn btn-default" type="reset">Clear</button>
-        <button class="btn btn-primary" type="submit">Login</button>
+        <div class="text-right col-md-6">
+            <button class="btn btn-default" type="reset">Clear</button>
+            <button class="btn btn-primary" type="submit">Login</button>
+        </div>
     </div>
     {{ form_end(login_form) }}
     <br>
-    <div><a class="nav-link" href="{{ path('about_us') }}">Back to the main page</a></div>
+    {% for flash in app.session.flashbag.get('error') %}
+        <div class="alert alert-danger">{{ flash }}</div>
+    {% endfor %}
+    <div><a class="btn btn-link reset-password" href="#" data-toggle="modal" data-target="#resetPasswordModal">Forgot password?</a></div>
 
+    <div class="modal fade" id="resetPasswordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

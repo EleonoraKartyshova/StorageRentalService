@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use App\Entity\User;
 
-class PageController extends FrontController
+class PageController extends AbstractController
 {
     /**
      * @Route("/", name="about_us")

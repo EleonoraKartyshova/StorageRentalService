@@ -4,6 +4,14 @@ $(document).ready(function(){
 
     $('.storage-volume-enabled[id="reservation_storageVolumeId"]').prop("disabled", false).prop("required", true);
 
+    $('.reset-password').click(function() {
+        var url = Routing.generate('reset_password');
+        console.log(url);
+        $.get(url, function (data) {
+            $(".modal-content").html(data);
+        });
+    });
+
     $('.reservation-details').click(function() {
         var url = Routing.generate('reservation_details', {id: $(this).attr('id')});
         $.get(url, function (data) {
