@@ -31,6 +31,11 @@ class StorageVolume
     private $storageTypeId;
 
     /**
+     * @ORM\Column(type="integer", length=10, name="count")
+     */
+    private $count;
+
+    /**
      * @var datetime $created_at
      *
      * @ORM\Column(type="datetime", name="created_at")
@@ -92,6 +97,16 @@ class StorageVolume
     public function getStorageTypeId()
     {
         return $this->storageTypeId;
+    }
+
+    public function setCount($count)
+    {
+        $this->count = $count;
+    }
+
+    public function getCount()
+    {
+        return $this->count;
     }
 
     public function getCreatedAt()

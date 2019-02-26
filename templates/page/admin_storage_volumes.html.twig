@@ -3,7 +3,7 @@
 {% block title %}Storage volumes{% endblock %}
 
 {% block content %}
-    <div class="col-md-6">
+    <div class="col-md-7">
         <h1>This page is "Storage volumes"</h1>
         {% for flash in app.session.flashbag.get('success') %}
             <div class="alert alert-success">{{ flash }}</div>
@@ -14,6 +14,7 @@
                 <th>ID</th>
                 <th>Storage Volume</th>
                 <th>Storage type</th>
+                <th>Count</th>
                 <th>Edit</th>
             </tr>
             </thead>
@@ -23,6 +24,7 @@
                     <td>{{ storage_volume.id }}</td>
                     <td>{{ storage_volume.volume }}</td>
                     <td>{{ storage_volume.storageTypeId.title }}</td>
+                    <td>{{ storage_volume.count }}</td>
                     <td><a href="#" class="text-dark btn btn-link admin-edit-storage-volume" id="{{ storage_volume.id }}" data-toggle="modal" data-target="#adminEditStorageVolumeModal">edit</a></td>
                 </tr>
             {% endfor %}

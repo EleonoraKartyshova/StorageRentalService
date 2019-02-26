@@ -46,6 +46,10 @@ class ReservationController extends AbstractController
 
             $reservation->setGoodsId($goods);
 
+            $storageVolumeCount = $reservation->getStorageVolumeId()->getCount();
+            $storageVolumeCount--;
+            $reservation->getStorageVolumeId()->setCount($storageVolumeCount);
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($reservation);
             $entityManager->persist($goods);
@@ -61,6 +65,10 @@ class ReservationController extends AbstractController
             $goods->setReservationId($reservation);
 
             $reservation->setGoodsId($goods);
+
+            $storageVolumeCount = $reservation->getStorageVolumeId()->getCount();
+            $storageVolumeCount--;
+            $reservation->getStorageVolumeId()->setCount($storageVolumeCount);
 
             $delivery = $formDelivery->getData();
             $delivery->setReservationId($reservation);

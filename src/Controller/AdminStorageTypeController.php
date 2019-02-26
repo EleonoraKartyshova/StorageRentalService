@@ -88,21 +88,20 @@ class AdminStorageTypeController extends AbstractController
      */
     public function editStorageType($id, Request $request)
     {
-        $form = $this->createForm(EditStorageType::class);
-        $form->handleRequest($request);
-
         $storage_type = $this->getDoctrine()
             ->getRepository(StorageType::class)
             ->findOneBy([
                 'id' => $id,
             ]);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $formDataTitle = $form->getData()->getTitle();
+        $form = $this->createForm(EditStorageType::class, $storage_type);
+        $form->handleRequest($request);
 
-            $storage_type->setTitle($formDataTitle);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $type = $form->getData();
 
             $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($type);
             $entityManager->flush();
 
             $this->addFlash('success', 'Saved!');

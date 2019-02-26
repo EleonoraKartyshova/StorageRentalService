@@ -34,21 +34,20 @@ class AdminStorageVolumeController extends AbstractController
      */
     public function editStorageVolume($id, Request $request)
     {
-        $form = $this->createForm(EditStorageVolumeType::class);
-        $form->handleRequest($request);
-
         $storage_volume = $this->getDoctrine()
             ->getRepository(StorageVolume::class)
             ->findOneBy([
                 'id' => $id,
             ]);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $formDataVolume = $form->getData()->getVolume();
+        $form = $this->createForm(EditStorageVolumeType::class, $storage_volume);
+        $form->handleRequest($request);
 
-            $storage_volume->setVolume($formDataVolume);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $volume = $form->getData();
 
             $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($volume);
             $entityManager->flush();
 
             $this->addFlash('success', 'Saved!');

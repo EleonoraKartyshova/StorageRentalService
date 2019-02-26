@@ -41,6 +41,10 @@ class ReservationType extends AbstractType
             ])
             ->add('storageVolumeId', EntityType::class, [
                 'class' => StorageVolume::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('volume')
+                        ->where('volume.count > 0');
+                },
                 'choice_attr' => function (StorageVolume $volume) {
                     return array('class' => strval($volume->getStorageTypeId()->getId()));
                 },

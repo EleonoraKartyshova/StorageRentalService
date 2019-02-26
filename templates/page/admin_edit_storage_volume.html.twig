@@ -8,7 +8,8 @@
                 </div>
                 <div class="modal-body">
                     {{ form_start(edit_storage_volume_form, {'action': path('admin_edit_storage_volume', {'id': storage_volume.id} )}) }}
-                    {{ form_row(edit_storage_volume_form.volume, {'value': storage_volume.volume}) }}
+                    {{ form_row(edit_storage_volume_form.volume) }}
+                    {{ form_row(edit_storage_volume_form.count) }}
                     <div class="modal-footer">
                         <button type="reset" class="btn btn-default">Clear</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -16,5 +17,4 @@
                     </div>
                     {{ form_end(edit_storage_volume_form) }}
                 </div>
-
 {% endblock %}

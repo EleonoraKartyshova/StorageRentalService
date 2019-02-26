@@ -13,6 +13,7 @@ class EditStorageVolumeType extends AbstractType
     {
         $builder
             ->add('volume')
+            ->add('count')
         ;
     }
 
