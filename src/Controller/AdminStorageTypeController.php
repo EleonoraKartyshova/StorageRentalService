@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\StorageType;
 use App\Form\EditStorageType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Component\Form\NativeRequestHandler;
 
 class AdminStorageTypeController extends AbstractController
 {

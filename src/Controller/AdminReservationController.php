@@ -2,21 +2,18 @@
 
 namespace App\Controller;
 
+use App\Entity\StorageVolume;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Security;
-use App\Entity\StorageType;
-use App\Entity\StorageVolume;
 use App\Entity\Goods;
-use App\Entity\User;
-use App\Entity\GoodsProperty;
 use App\Entity\Delivery;
 use App\Entity\Reservation;
 use App\Form\GoodsType;
 use App\Form\DeliveryType;
 use App\Form\ReservationType;
-use App\Form\BaseReservationFormType;
+use App\Form\EditReservationType;
+use App\Form\EditDeliveryType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class AdminReservationController extends AbstractController
@@ -80,7 +77,7 @@ class AdminReservationController extends AbstractController
             ->findOneBy([
                 'id' => $id,
             ]);
-        $formReservation = $this->createForm(ReservationType::class, $reservationForEdit);
+        $formReservation = $this->createForm(EditReservationType::class, $reservationForEdit);
 
         $goodsForEdit = $this->getDoctrine()
             ->getRepository(Goods::class)
@@ -95,57 +92,24 @@ class AdminReservationController extends AbstractController
                 ->findOneBy([
                     'reservationId' => $reservationForEdit->getId(),
                 ]);
-            $formDelivery = $this->createForm(DeliveryType::class, $deliveryForEdit);
+            $formDelivery = $this->createForm(EditDeliveryType::class, $deliveryForEdit);
         } else {
+            $deliveryForEdit = null;
             $formDelivery = $this->createForm(DeliveryType::class);
         }
+
+        $storageVolumeForEdit = $reservationForEdit->getStorageVolumeId();
 
         $formReservation->handleRequest($request);
         $formGoods->handleRequest($request);
         $formDelivery->handleRequest($request);
 
         if ($this->checkRequiredForms($formReservation, $formGoods) && !($formReservation['hasDelivery']->getData())) {
-            $reservation = $formReservation->getData();
-
-            $goods = $formGoods->getData();
-            $goods->setReservationId($reservation);
-
-            $reservation->setGoodsId($goods);
-
-            $entityManager = $this->getDoctrine()->getManager();
-
-            if (isset($deliveryForEdit)) {
-                $entityManager->remove($deliveryForEdit);
-            }
-            $entityManager->persist($reservation);
-            $entityManager->persist($goods);
-            $entityManager->flush();
-
-            $this->addFlash('success', 'Saved!');
-
-            return $this->redirectToRoute('admin_edit_reservation', ['id' => $id]);
+            return $this->setReservation($formReservation, $formGoods, $storageVolumeForEdit, $deliveryForEdit);
         }
 
         if ($this->checkRequiredForms($formReservation, $formGoods, $formDelivery) && ($formReservation['hasDelivery']->getData())) {
-            $reservation = $formReservation->getData();
-
-            $goods = $formGoods->getData();
-            $goods->setReservationId($reservation);
-
-            $reservation->setGoodsId($goods);
-
-            $delivery = $formDelivery->getData();
-            $delivery->setReservationId($reservation);
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($reservation);
-            $entityManager->persist($goods);
-            $entityManager->persist($delivery);
-            $entityManager->flush();
-
-            $this->addFlash('success', 'Saved!');
-
-            return $this->redirectToRoute('admin_edit_reservation', ['id' => $id]);
+            return $this->setReservation($formReservation, $formGoods, $storageVolumeForEdit, null, $formDelivery);
         }
 
         return $this->render('page/admin_edit_reservation.html.twig', [
@@ -161,16 +125,58 @@ class AdminReservationController extends AbstractController
     {
         if ($formDelivery == null) {
             return $formReservation->isSubmitted() &&
-                $formGoods->isSubmitted();
-//                $formReservation->isValid() &&
-//                $formGoods->isValid();
+                $formGoods->isSubmitted() &&
+                $formReservation->isValid() &&
+                $formGoods->isValid();
         } else {
             return $formReservation->isSubmitted() &&
                 $formGoods->isSubmitted() &&
-                $formDelivery->isSubmitted();
-//                $formReservation->isValid() &&
-//                $formGoods->isValid() &&
-//                $formDelivery->isValid();
+                $formDelivery->isSubmitted() &&
+                $formReservation->isValid() &&
+                $formGoods->isValid() &&
+                $formDelivery->isValid();
         }
+    }
+
+    private function setReservation($formReservation, $formGoods, $storageVolumeForEdit, $deliveryForEdit = null, $formDelivery = null)
+    {
+        $reservation = $formReservation->getData();
+
+        $goods = $formGoods->getData();
+        $goods->setReservationId($reservation);
+
+        $reservation->setGoodsId($goods);
+
+        if ($storageVolumeForEdit !== $reservation->getStorageVolumeId()) {
+            $storageVolumeForEdit = $this->getDoctrine()
+                ->getRepository(StorageVolume::class)
+                ->findOneBy([
+                    'id' => $storageVolumeForEdit,
+                ]);
+            $storageVolumeCountForEdit = $storageVolumeForEdit->getCount();
+            $storageVolumeCountForEdit++;
+            $storageVolumeForEdit->setCount($storageVolumeCountForEdit);
+
+            $storageVolumeCount = $reservation->getStorageVolumeId()->getCount();
+            $storageVolumeCount--;
+            $reservation->getStorageVolumeId()->setCount($storageVolumeCount);
+        }
+
+        $entityManager = $this->getDoctrine()->getManager();
+        if ($deliveryForEdit !== null) {
+            $entityManager->remove($deliveryForEdit);
+        }
+        $entityManager->persist($reservation);
+        $entityManager->persist($goods);
+        if ($formDelivery !== null) {
+            $delivery = $formDelivery->getData();
+            $delivery->setReservationId($reservation);
+            $entityManager->persist($delivery);
+        }
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Saved!');
+
+        return $this->redirectToRoute('admin_edit_reservation', ['id' => $reservation->getId()]);
     }
 }

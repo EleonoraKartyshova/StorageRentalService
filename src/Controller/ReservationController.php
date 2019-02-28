@@ -32,52 +32,10 @@ class ReservationController extends AbstractController
         $formDelivery->handleRequest($request);
 
         if ($this->checkRequiredForms($formReservation, $formGoods) && !($formReservation['hasDelivery']->getData())) {
-            $reservation = $formReservation->getData();
-            $reservation->setUserId($user);
-
-            $goods = $formGoods->getData();
-            $goods->setReservationId($reservation);
-
-            $reservation->setGoodsId($goods);
-
-            $storageVolumeCount = $reservation->getStorageVolumeId()->getCount();
-            $storageVolumeCount--;
-            $reservation->getStorageVolumeId()->setCount($storageVolumeCount);
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($reservation);
-            $entityManager->persist($goods);
-            $entityManager->flush();
-
-            $this->addFlash('success', 'Saved!');
-
-            return $this->redirectToRoute('reservations_list');
+            return $this->setReservation($user, $formReservation, $formGoods);
         }
         if ($this->checkRequiredForms($formReservation, $formGoods, $formDelivery) && ($formReservation['hasDelivery']->getData())) {
-            $reservation = $formReservation->getData();
-            $reservation->setUserId($user);
-
-            $goods = $formGoods->getData();
-            $goods->setReservationId($reservation);
-
-            $reservation->setGoodsId($goods);
-
-            $storageVolumeCount = $reservation->getStorageVolumeId()->getCount();
-            $storageVolumeCount--;
-            $reservation->getStorageVolumeId()->setCount($storageVolumeCount);
-
-            $delivery = $formDelivery->getData();
-            $delivery->setReservationId($reservation);
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($reservation);
-            $entityManager->persist($goods);
-            $entityManager->persist($delivery);
-            $entityManager->flush();
-
-            $this->addFlash('success', 'Saved!');
-
-            return $this->redirectToRoute('reservations_list');
+            return $this->setReservation($user, $formReservation, $formGoods, $formDelivery);
         }
         return $this->render('page/create_reservation.html.twig', array(
             'reservation' => 'active',
@@ -159,5 +117,34 @@ class ReservationController extends AbstractController
                 $formGoods->isValid() &&
                 $formDelivery->isValid();
         }
+    }
+
+    private function setReservation($user, $formReservation, $formGoods, $formDelivery = null)
+    {
+        $reservation = $formReservation->getData();
+        $reservation->setUserId($user);
+
+        $goods = $formGoods->getData();
+        $goods->setReservationId($reservation);
+
+        $reservation->setGoodsId($goods);
+
+        $storageVolumeCount = $reservation->getStorageVolumeId()->getCount();
+        $storageVolumeCount--;
+        $reservation->getStorageVolumeId()->setCount($storageVolumeCount);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($reservation);
+        $entityManager->persist($goods);
+        if ($formDelivery !== null) {
+            $delivery = $formDelivery->getData();
+            $delivery->setReservationId($reservation);
+            $entityManager->persist($delivery);
+        }
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Saved!');
+
+        return $this->redirectToRoute('reservations_list');
     }
 }

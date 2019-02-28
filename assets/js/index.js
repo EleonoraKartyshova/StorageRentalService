@@ -2,7 +2,8 @@ $(document).ready(function(){
     $("#reservation_storageVolumeId").chained("#reservation_storageTypeId");
     $("#reservation_storageVolumeId").prop("disabled", true).prop("required", true);
 
-    $('.storage-volume-enabled[id="reservation_storageVolumeId"]').prop("disabled", false).prop("required", true);
+    $("#edit_reservation_storageVolumeId").chained("#edit_reservation_storageTypeId");
+    $('.storage-volume-enabled[id="edit_reservation_storageVolumeId"]').prop("disabled", false).prop("required", true);
 
     $('.reset-password').click(function() {
         var url = Routing.generate('reset_password');
@@ -88,6 +89,16 @@ $('.hasDeliveryDetails[id="visible"]').children().children().children("input.del
 $('.hasDeliveryDetails[id="visible"]').children().children().children().children(".delivery-required select").prop("required", true).prop("disabled", false);
 
 $( "#reservation_hasDelivery").change(function () {
+    if ($(this).val() == 1) {
+        $( ".hasDeliveryDetails " ).prop("hidden", false);
+        $(".delivery-required select, input.delivery-required").prop("required", true).prop("disabled", false);
+    } else {
+        $( ".hasDeliveryDetails " ).prop("hidden", true);
+        $(".delivery-required select, input.delivery-required").prop("required", false).prop("disabled", true);
+    }
+})
+
+$( "#edit_reservation_hasDelivery").change(function () {
     if ($(this).val() == 1) {
         $( ".hasDeliveryDetails " ).prop("hidden", false);
         $(".delivery-required select, input.delivery-required").prop("required", true).prop("disabled", false);

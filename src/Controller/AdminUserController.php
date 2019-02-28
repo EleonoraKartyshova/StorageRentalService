@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Form\ClearableErrorsInterface;
-use Symfony\Component\Form\NativeRequestHandler;
 
 class AdminUserController extends AbstractController
 {

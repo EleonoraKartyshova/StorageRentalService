@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\StorageVolume;
 use App\Form\EditStorageVolumeType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Component\Form\NativeRequestHandler;
 
 class AdminStorageVolumeController extends AbstractController
 {

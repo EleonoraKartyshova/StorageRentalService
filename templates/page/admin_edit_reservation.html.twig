@@ -27,15 +27,13 @@
         {{ form_row(edit_reservation_form.details) }}
 
         <hr><h3>Goods details</h3>
-        {{ form_start(edit_goods_form) }}
         {{ form_row(edit_goods_form.goodsPropertyId, {'label': 'Goods property:'}) }}
         {{ form_row(edit_goods_form.details) }}
 
         <hr><h3>Delivery details</h3>
         {{ form_label(edit_reservation_form.hasDelivery, 'At the end of the storage period I want to:', {'label_attr': {'class': 'col-md-10'}}) }}
-        {{ form_widget(edit_reservation_form.hasDelivery) }}
-        <div class="hasDeliveryDetails" {% if reservation.hasDelivery==1 %} id="visible" {% endif %}><br>
-            {{ form_start(edit_delivery_form) }}
+        {{ form_widget(edit_reservation_form.hasDelivery) }}<br>
+        <div class="hasDeliveryDetails" {% if reservation.hasDelivery==1 %} id="visible" {% endif %}>
             {{ form_row(edit_delivery_form.dateFrom, {'attr': {'class': 'delivery-required'} }) }}
             {{ form_row(edit_delivery_form.dateTo, {'attr': {'class': 'delivery-required'} }) }}
             {{ form_row(edit_delivery_form.address, {'attr': {'class': 'delivery-required'} }) }}
@@ -47,10 +45,9 @@
             <a class="btn btn-secondary" href="{{ path('admin_reservations') }}" role="button">Cancel</a>
             <button type="submit" class="btn btn-primary">Save</button>
         </div>
-        <div class="hasDeliveryDetails" hidden disabled>
-            {{ form_end(edit_delivery_form) }}
-        </div>
-        {{ form_end(edit_goods_form) }}
+        {{ form_row(edit_reservation_form._token) }}
+        {{ form_row(edit_goods_form._token) }}
+        {{ form_row(edit_delivery_form._token) }}
         {{ form_end(edit_reservation_form) }}
     </div>
 {% endblock %}
