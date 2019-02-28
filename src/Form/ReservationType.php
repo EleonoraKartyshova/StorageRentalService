@@ -9,22 +9,22 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Doctrine\ORM\EntityRepository;
-use Symfony\Component\Security\Core\Security;
-use App\Entity\User;
 
 class ReservationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('dateFrom')
-            ->add('dateTo')
+            ->add('dateFrom', DateType::class, [
+                'data' => new \DateTime()
+            ])
+            ->add('dateTo', DateType::class, [
+                'data' => new \DateTime()
+            ])
             ->add('details', TextareaType::class, ['required' => true])
             ->add('hasDelivery', ChoiceType::class, [
                 'choices'  => [

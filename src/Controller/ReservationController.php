@@ -6,17 +6,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
-use App\Entity\StorageType;
-use App\Entity\StorageVolume;
-use App\Entity\Goods;
-use App\Entity\User;
-use App\Entity\GoodsProperty;
 use App\Entity\Delivery;
 use App\Entity\Reservation;
 use App\Form\GoodsType;
 use App\Form\DeliveryType;
 use App\Form\ReservationType;
-use App\Form\BaseReservationFormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class ReservationController extends AbstractController
@@ -55,6 +49,8 @@ class ReservationController extends AbstractController
             $entityManager->persist($goods);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Saved!');
+
             return $this->redirectToRoute('reservations_list');
         }
         if ($this->checkRequiredForms($formReservation, $formGoods, $formDelivery) && ($formReservation['hasDelivery']->getData())) {
@@ -78,6 +74,8 @@ class ReservationController extends AbstractController
             $entityManager->persist($goods);
             $entityManager->persist($delivery);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Saved!');
 
             return $this->redirectToRoute('reservations_list');
         }
@@ -150,16 +148,16 @@ class ReservationController extends AbstractController
     {
         if ($formDelivery == null) {
             return $formReservation->isSubmitted() &&
-                $formGoods->isSubmitted();
-//                $formReservation->isValid() &&
-//                $formGoods->isValid();
+                $formGoods->isSubmitted() &&
+                $formReservation->isValid() &&
+                $formGoods->isValid();
         } else {
             return $formReservation->isSubmitted() &&
                 $formGoods->isSubmitted() &&
-                $formDelivery->isSubmitted();
-//                $formReservation->isValid() &&
-//                $formGoods->isValid() &&
-//                $formDelivery->isValid();
+                $formDelivery->isSubmitted() &&
+                $formReservation->isValid() &&
+                $formGoods->isValid() &&
+                $formDelivery->isValid();
         }
     }
 }

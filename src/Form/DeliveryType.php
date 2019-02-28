@@ -14,8 +14,12 @@ class DeliveryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('dateFrom', DateType::class)
-            ->add('dateTo', DateType::class)
+            ->add('dateFrom', DateType::class, [
+                'data' => new \DateTime()
+            ])
+            ->add('dateTo', DateType::class, [
+                'data' => new \DateTime()
+            ])
             ->add('address', TextType::class)
             ->add('phoneNumber', TextType::class)
         ;

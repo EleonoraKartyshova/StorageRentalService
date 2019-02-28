@@ -5,6 +5,9 @@
 {% block content %}
     <div class="col-md-10">
         <h1>This page is "My Reservations list"</h1>
+        {% for flash in app.session.flashbag.get('success') %}
+            <div class="alert alert-success">{{ flash }}</div>
+        {% endfor %}
 
         <table class="table-bordered table-hover table">
             <thead class="thead-dark">

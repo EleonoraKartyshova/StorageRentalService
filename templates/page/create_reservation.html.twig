@@ -5,9 +5,6 @@
 {% block content %}
     <div class="col-md-6">
         <h1>This page is "Create Reservation"</h1>
-        {% for flash in app.session.flashbag.get('success') %}
-            <div class="alert alert-success">{{ flash }}</div>
-        {% endfor %}
 
         {{ form_start(reservation_form) }}
 
@@ -19,15 +16,13 @@
         {{ form_row(reservation_form.details) }}
 
         <hr><h3>Goods details</h3>
-        {{ form_start(goods_form) }}
         {{ form_row(goods_form.goodsPropertyId, { 'label': 'Goods property:' }) }}
         {{ form_row(goods_form.details) }}
 
         <hr><h3>Delivery details</h3>
         {{ form_label(reservation_form.hasDelivery, 'At the end of the storage period I want to:', {'label_attr': {'class': 'col-md-10'}}) }}
-        {{ form_widget(reservation_form.hasDelivery) }}
+        {{ form_widget(reservation_form.hasDelivery) }}<br>
         <div class="hasDeliveryDetails" hidden disabled>
-            {{ form_start(delivery_form) }}
             {{ form_row(delivery_form.dateFrom, {'attr': {'class': 'delivery-required'} }) }}
             {{ form_row(delivery_form.dateTo, {'attr': {'class': 'delivery-required'} }) }}
             {{ form_row(delivery_form.address, {'attr': {'class': 'delivery-required'} }) }}
@@ -36,12 +31,11 @@
         <br>
         <div class="text-right">
         <button class="btn btn-default" type="reset">Clear</button>
-        <button class="btn btn-primary" type="submit">Make a reservation</button>
+        <button class="btn btn-primary" type="submit">Create reservation</button>
         </div>
-        <div class="hasDeliveryDetails" hidden disabled>
-            {{ form_end(delivery_form) }}
-        </div>
-        {{ form_end(goods_form) }}
+        {{ form_row(reservation_form._token) }}
+        {{ form_row(goods_form._token) }}
+        {{ form_row(delivery_form._token) }}
         {{ form_end(reservation_form) }}
     </div>
 {% endblock %}
