@@ -38,6 +38,7 @@ class ReservationType extends AbstractType
                     return $er->createQueryBuilder('type')
                         ->where('type.isActive = 1');
                 },
+                'placeholder' => 'Choose Storage Type'
             ])
             ->add('storageVolumeId', EntityType::class, [
                 'class' => StorageVolume::class,
@@ -48,6 +49,7 @@ class ReservationType extends AbstractType
                 'choice_attr' => function (StorageVolume $volume) {
                     return array('class' => strval($volume->getStorageTypeId()->getId()));
                 },
+                'placeholder' => 'Choose Storage Volume'
             ])
         ;
     }

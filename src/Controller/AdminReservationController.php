@@ -11,7 +11,6 @@ use App\Entity\Delivery;
 use App\Entity\Reservation;
 use App\Form\GoodsType;
 use App\Form\DeliveryType;
-use App\Form\ReservationType;
 use App\Form\EditReservationType;
 use App\Form\EditDeliveryType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
