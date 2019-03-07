@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 use App\Entity\Delivery;
 use App\Entity\Reservation;
+use App\Entity\Goods;
 use App\Form\GoodsType;
 use App\Form\DeliveryType;
 use App\Form\ReservationType;
@@ -61,6 +62,12 @@ class ReservationController extends AbstractController
                 'userId' => $userId,
             ]);
 
+        $goods = $this->getDoctrine()
+            ->getRepository(Goods::class)
+            ->findOneBy([
+                'reservationId' => $id,
+            ]);
+
         if ($reservation->getHasDelivery()) {
             $delivery = $this->getDoctrine()
                 ->getRepository(Delivery::class)
@@ -77,6 +84,7 @@ class ReservationController extends AbstractController
             return $this->render('page/reservation_details.html.twig', [
                 'reserve' => 'active',
                 'reservation' => $reservation,
+                'goods' => $goods,
             ]);
         }
     }
@@ -126,8 +134,6 @@ class ReservationController extends AbstractController
 
         $goods = $formGoods->getData();
         $goods->setReservationId($reservation);
-
-        $reservation->setGoodsId($goods);
 
         $storageVolumeCount = $reservation->getStorageVolumeId()->getCount();
         $storageVolumeCount--;

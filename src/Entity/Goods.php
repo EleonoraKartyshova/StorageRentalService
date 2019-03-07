@@ -16,7 +16,6 @@ class Goods
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @ORM\OneToOne(targetEntity="Reservation", cascade={"persist", "remove"})
      */
     private $id;
 

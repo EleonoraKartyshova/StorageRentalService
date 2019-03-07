@@ -45,6 +45,12 @@ class AdminReservationController extends AbstractController
                 'id' => $id,
             ]);
 
+        $goods = $this->getDoctrine()
+            ->getRepository(Goods::class)
+            ->findOneBy([
+                'reservationId' => $id,
+            ]);
+
         if ($reservation->getHasDelivery()) {
             $delivery = $this->getDoctrine()
                 ->getRepository(Delivery::class)
@@ -55,12 +61,14 @@ class AdminReservationController extends AbstractController
             return $this->render('page/admin_reservation_details.html.twig', [
                 'admin' => 'active',
                 'reservation' => $reservation,
+                'goods' => $goods,
                 'delivery' => $delivery,
             ]);
         } else {
             return $this->render('page/admin_reservation_details.html.twig', [
                 'admin' => 'active',
                 'reservation' => $reservation,
+                'goods' => $goods,
             ]);
         }
     }
@@ -81,7 +89,7 @@ class AdminReservationController extends AbstractController
         $goodsForEdit = $this->getDoctrine()
             ->getRepository(Goods::class)
             ->findOneBy([
-                'id' => $reservationForEdit->getGoodsId(),
+                'reservationId' => $id,
             ]);
         $formGoods = $this->createForm(GoodsType::class, $goodsForEdit);
 
@@ -143,8 +151,6 @@ class AdminReservationController extends AbstractController
 
         $goods = $formGoods->getData();
         $goods->setReservationId($reservation);
-
-        $reservation->setGoodsId($goods);
 
         if ($storageVolumeForEdit !== $reservation->getStorageVolumeId()) {
             $storageVolumeForEdit = $this->getDoctrine()

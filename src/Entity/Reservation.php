@@ -49,12 +49,6 @@ class Reservation
     private $userId;
 
     /**
-     * @ORM\OneToOne(targetEntity="Goods")
-     * @ORM\JoinColumn(name="goods_id", referencedColumnName="id", onDelete="CASCADE")
-     */
-    private $goodsId;
-
-    /**
      * @ORM\Column(type="boolean", name="has_delivery", options={"default":0}, nullable=true)
      */
     private $hasDelivery = 1;
