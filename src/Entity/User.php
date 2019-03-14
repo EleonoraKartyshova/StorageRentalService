@@ -25,6 +25,11 @@ class User implements UserInterface
     private $id;
 
     /**
+     * @ORM\Column(type="string", name="facebook_id", length=255, nullable=true)
+     */
+    private $facebookId;
+
+    /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=20)
      */
@@ -124,6 +129,16 @@ class User implements UserInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setFacebookId($facebookId)
+    {
+        $this->facebookId = $facebookId;
+    }
+
+    public function getFacebookId()
+    {
+        return $this->facebookId;
     }
 
     public function setLogin($login)

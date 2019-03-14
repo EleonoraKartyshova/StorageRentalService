@@ -5,6 +5,8 @@
 # to each configured DirectoryIndex file (e.g. index.php, index.html, index.pl).
 DirectoryIndex index.php
 
+Satisfy Any
+
 # By default, Apache does not evaluate symbolic links if you did not enable this
 # feature in your server configuration. Uncomment the following line if you
 # install assets as symlinks or if you experience problems related to symlinks
@@ -19,6 +21,33 @@ DirectoryIndex index.php
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
+
+#    RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+#    RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+#
+#    RewriteCond %{HTTPS} !on
+#    RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+#    RewriteBase /
+#
+#    RewriteCond %{HTTPS} off [OR]
+#    RewriteCond %{HTTP_HOST} ^www\. [NC]
+#    RewriteRule ^ https://storage-rental-service.lc%{REQUEST_URI} [L,NE,R=301]
+
+#RewriteCond %{HTTP_HOST} ^www\.yourdomain\.com [NC]
+#RewriteRule ^(.*)$ https://yourdomain.com/$1 [L,R=301]
+#
+#RewriteCond %{HTTPS} =off
+#RewriteCond %{HTTP_HOST} ^yourdomain\.com [NC]
+#RewriteRule ^(.*)$ https://yourdomain.com/$1 [L,R=301]
+
+#RewriteCond %{HTTPS} !=on
+#RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+#    RewriteCond %{HTTPS} off [OR]
+#    RewriteCond %{HTTP_HOST} ^www\. [NC]
+#    RewriteCond %{HTTP_HOST} ^(?:www\.)?(.+)$ [NC]
+#    RewriteRule ^ https://%1%{REQUEST_URI} [L,NE,R=301]
 
     # Determine the RewriteBase automatically and set it as environment variable.
     # If you are using Apache aliases to do mass virtual hosting or installed the
