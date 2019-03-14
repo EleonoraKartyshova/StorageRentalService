@@ -31,6 +31,44 @@ class OAuthProvider extends OAuthUserProvider
 
     public function loadUserByOAuthUserResponse(UserResponseInterface $response)
     {
+        $user = $this->userRepository->findOneByEmail($response->getEmail());
+
+        if (null === $user) {
+            $user = new User();
+
+            $user->setLogin('login');
+            $user->setName('name');
+            $user->setAddress('kyiv');
+            $user->setPhoneNumber('12345');
+            $user->setPassword('123123');
+            $user->setCompanyTitle('company');
+            $user->setEmail('emailll@gmail.com');
+            $user->setFacebookId($response->getOAuthToken());
+
+            $this->userRepository->save($user);
+
+            return $user;
+        }
+
+        //if user exists - go with the HWIOAuth way
+        $user = parent::loadUserByOAuthUserResponse($response);
+
+        $serviceName = $response->getResourceOwner()->getName();
+        $setter = 'set' . ucfirst($serviceName) . 'AccessToken';
+
+        //update access token
+        $user->$setter($response->getAccessToken());
+
+        return $user;
+    }
+
+//    public function loadUserByUsername($username)
+//    {
+//        return new MyOAuthUser($username);
+//    }
+
+    public function loadUserByOAuthUserResponse4(UserResponseInterface $response)
+    {
         //$email = $response->getEmail();
 
         //$source = $response->getResourceOwner()->getName();
@@ -50,7 +88,7 @@ class OAuthProvider extends OAuthUserProvider
 //        $entityManager->flush();
 //        return $user;
 
-
+        return parent::loadUserByOAuthUserResponse($response);
         $data = $response->getData();
 //        dd($data);
 //        $id = $data['id'];
@@ -77,11 +115,11 @@ class OAuthProvider extends OAuthUserProvider
         // set user name, email ...
         // ......
         //$this->userManager->updateUser($user);
-            $user = new MyOAuthUser();
+            $user = new MyOAuthUser($name);
             if (isset($email)) {
                 $user->email = $email;
             }
-            $user->name = $name;
+            //$user->name = $name;
             $user->token = $token;
             $user->oauth_token = $oauth_token;
             //$user['facebookId'] = $id;
@@ -91,10 +129,10 @@ class OAuthProvider extends OAuthUserProvider
 //            $entityManager = $this->getDoctrine()->getManager();
 //            $entityManager->persist($user);
 //            $entityManager->flush();
-            return $user;
+ //           return $user;
         //}
         //$user = parent::loadUserByUsername($name);
-        //return parent::loadUserByOAuthUserResponse($response);
+
        // $user = new MyOAuthUser();
         //return $user;
     }

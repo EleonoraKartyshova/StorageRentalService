@@ -4,10 +4,13 @@ security:
             algorithm: bcrypt
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        app_user_provider:
+#        app_user_provider:
+        hwi:
             entity:
                 class: App\Entity\User
                 property: login
+#        hwi:
+#            id: hwi_oauth.user.provider
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/

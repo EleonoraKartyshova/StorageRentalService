@@ -3,6 +3,22 @@ hwi_oauth:
     firewall_names: [main]
 #    firewall_names:        [secured_area]
     # https://github.com/hwi/HWIOAuthBundle/blob/master/Resources/doc/2-configuring_resource_owners.md
+#    resource_owners:
+#        aptneo_auth:
+#            type:                oauth2
+#            client_id:           '%oauth_client_id%'
+#            client_secret:       '%oauth_client_secret%'
+#            access_token_url:    '%oauth_access_token_url%'
+#            authorization_url:   '%oauth_authorization_url%'
+#            infos_url:           '%oauth_infos_url%'
+#            scope:               '%oauth_scope%'
+#            user_response_class: HWI\Bundle\OAuthBundle\OAuth\Response\PathUserResponse
+#            paths:
+#                identifier: 'id'
+#                nickname:   'username'
+#                realname:   'username'
+#                email:   'email'
+
     resource_owners:
         facebook:
 #            infos_url: 'https://graph.facebook.com/me?fields=email'

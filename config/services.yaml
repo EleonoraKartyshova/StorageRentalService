@@ -9,6 +9,8 @@ parameters:
 services:
     defaultbundle.oauth_provider:
         class: App\Security\OAuthProvider
+#    hwi_oauth.user.provider.entity:
+#        class: HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUserProvider
 #        arguments: [@doctrine]
     # default configuration for services in *this* file
     _defaults:

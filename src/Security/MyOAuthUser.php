@@ -20,6 +20,11 @@ class MyOAuthUser implements UserInterface
     public $token = "";
     public $oauth_token = "";
 
+    public function __construct($username)
+    {
+        $this->name = $username;
+    }
+
     public function getToken()
     {
         return $this->token;
