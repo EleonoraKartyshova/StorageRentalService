@@ -15,7 +15,7 @@ class MyOAuthUser implements UserInterface
 {
     public $name = "";
     public $email = "";
-    public $role = "";
+    public $role = [];
     public $password = "";
     public $token = "";
     public $oauth_token = "";
