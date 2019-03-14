@@ -56,6 +56,36 @@ class UserController extends AbstractController
     }
 
     /**
+     * @Route("/registration/fb", name="registration_fb")
+     */
+    public function registrationFb(Request $request, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $formAuthenticator)
+    {
+        $form = $this->createForm(UserType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $form->getData();
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Saved!');
+
+            return $guardHandler->authenticateUserAndHandleSuccess(
+                $user,
+                $request,
+                $formAuthenticator,
+                'main'
+            );
+        }
+        return $this->render('page/registration_fb.html.twig', array(
+            'reg_form' => $form->createView(),
+            'registration' => 'active',
+        ));
+    }
+
+    /**
      * @Route("/login", name="app_login")
      */
     public function login(AuthenticationUtils $authenticationUtils): Response

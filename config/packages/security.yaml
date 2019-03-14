@@ -23,6 +23,27 @@ security:
             remember_me:
                 secret:   '%kernel.secret%'
                 lifetime: 2592000 # 30 days in seconds
+#        secured_area:
+            oauth:
+                resource_owners:
+                    facebook: "/connect/check-facebook"
+                    google: "/connect/check-google"
+                    twitter: /login/check-twitter
+                login_path: /connect
+                use_forward: false
+                failure_path: /registration
+                oauth_user_provider:
+                    service: defaultbundle.oauth_provider
+#            oauth:
+#                resource_owners:
+#                    facebook: "/connect/check-facebook"
+#                    google: "/connect/check-google"
+#                    twitter: /login/check-twitter
+#                login_path: /connect
+#                use_forward: false
+#                failure_path: /registration
+#                oauth_user_provider:
+#                    service: defaultbundle.oauth_provider
 
                     # activate different ways to authenticate
 
@@ -38,3 +59,8 @@ security:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/reservation, roles: IS_AUTHENTICATED_REMEMBERED }
         - { path: ^/profile, roles: IS_AUTHENTICATED_REMEMBERED }
+        - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/registration, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/connect, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/connect/check-facebook", roles: IS_AUTHENTICATED_ANONYMOUSLY }
