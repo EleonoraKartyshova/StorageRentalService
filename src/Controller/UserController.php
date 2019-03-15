@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\UserType;
 use App\Form\LoginType;
@@ -24,6 +25,16 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class UserController extends AbstractController
 {
     const IMAGES_DIR = 'images/';
+    /** @var UserRepository*/
+    public $userRepository;
+
+    /**
+     * @required
+     */
+    public function setUserRepository(UserRepository $repository)
+    {
+        $this->userRepository = $repository;
+    }
 
     /**
      * @Route("/registration", name="registration")
@@ -50,36 +61,6 @@ class UserController extends AbstractController
             );
         }
         return $this->render('page/registration.html.twig', array(
-            'reg_form' => $form->createView(),
-            'registration' => 'active',
-        ));
-    }
-
-    /**
-     * @Route("/registration/fb", name="registration_fb")
-     */
-    public function registrationFb(Request $request, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $formAuthenticator)
-    {
-        $form = $this->createForm(UserType::class);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $user = $form->getData();
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            $this->addFlash('success', 'Saved!');
-
-            return $guardHandler->authenticateUserAndHandleSuccess(
-                $user,
-                $request,
-                $formAuthenticator,
-                'main'
-            );
-        }
-        return $this->render('page/registration_fb.html.twig', array(
             'reg_form' => $form->createView(),
             'registration' => 'active',
         ));
@@ -154,6 +135,7 @@ class UserController extends AbstractController
             $formDataPhoneNumber = $formData->getPhoneNumber();
             $formDataName = $formData->getName();
             $formDataAddress = $formData->getAddress();
+            $formDataEmail = $formData->getEmail();
 
             $file = $form['photo']->getData();
 
@@ -181,6 +163,7 @@ class UserController extends AbstractController
             $authUser->setPhoneNumber($formDataPhoneNumber);
             $authUser->setName($formDataName);
             $authUser->setAddress($formDataAddress);
+            $authUser->setEmail($formDataEmail);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
@@ -189,6 +172,11 @@ class UserController extends AbstractController
 
             return $this->redirectToRoute('edit_profile');
         }
+
+        if ($this->userRepository->hasEmptyFieldsById($authUser->getId())) {
+            $this->addFlash('danger', 'Please, fill in all fields to complete registration!');
+        }
+
         return $this->render('page/edit_profile.html.twig', [
             'profile' => 'active',
             'profile_user_form' => $form->createView(),

@@ -4,16 +4,20 @@
 
 {% block content %}
     <div class="col-md-6">
-        <h1>This page is "Edit profile"</h1>
         {% for flash in app.session.flashbag.get('success') %}
             <div class="alert alert-success">{{ flash }}</div>
         {% endfor %}
+        {% for flash in app.session.flashbag.get('danger') %}
+            <div class="alert alert-danger">{{ flash }}</div>
+        {% endfor %}
+        <h1>This page is "Edit profile"</h1>
     </div>
     <div class="row">
         <div class="col-md-5">
 
             {{ form_start(profile_user_form) }}
-            {{ form_row(profile_user_form.login, {'attr': {'placeholder': app.user.login}}) }}
+            {{ form_row(profile_user_form.login, {'value': app.user.login}) }}
+            {{ form_row(profile_user_form.email, {'value': app.user.email}) }}
             {{ form_row(profile_user_form.password, {'value': app.user.password}) }}
             {{ form_row(profile_user_form.companyTitle, {'value': app.user.companyTitle}) }}
             {{ form_row(profile_user_form.phoneNumber, {'value': app.user.phoneNumber}) }}

@@ -25,9 +25,9 @@ class User implements UserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", name="facebook_id", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true, name="facebook_ID")
      */
-    private $facebookId;
+    private $facebookID;
 
     /**
      * @Assert\NotBlank()
@@ -44,19 +44,19 @@ class User implements UserInterface
     /**
      * @Assert\NotBlank()
      * @Assert\Email()
-     * @ORM\Column(type="string", length=30)
+     * @ORM\Column(type="string", length=30, nullable=true)
      */
     private $email;
 
     /**
      * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=50, name="company_title")
+     * @ORM\Column(type="string", length=50, name="company_title", nullable=true)
      */
     private $companyTitle;
 
     /**
      * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=20, name="phone_number")
+     * @ORM\Column(type="string", length=20, name="phone_number", nullable=true)
      */
     private $phoneNumber;
 
@@ -68,7 +68,7 @@ class User implements UserInterface
 
     /**
      * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $address;
 
@@ -131,14 +131,14 @@ class User implements UserInterface
         return $this->id;
     }
 
-    public function setFacebookId($facebookId)
+    public function setFacebookID($facebookID)
     {
-        $this->facebookId = $facebookId;
+        $this->facebookID = $facebookID;
     }
 
-    public function getFacebookId()
+    public function getFacebookID()
     {
-        return $this->facebookId;
+        return $this->facebookID;
     }
 
     public function setLogin($login)

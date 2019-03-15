@@ -43,7 +43,6 @@ class UserRepository extends ServiceEntityRepository
     }
     */
 
-
     public function findOneByEmail($value): ?User
     {
         return $this->createQueryBuilder('u')
@@ -52,5 +51,39 @@ class UserRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult()
         ;
+    }
+
+    public function findOneByFacebookID($value): ?User
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.facebookID = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+
+    public function hasEmptyFieldsById($value)
+    {
+        $connection = $this->getEntityManager()->getConnection();
+
+        $sql = "
+        SELECT 
+        (
+            IF(email IS NULL OR email='', 1, 0) + 
+            IF(company_title IS NULL OR company_title='', 1, 0) + 
+            IF(phone_number IS NULL OR phone_number='', 1, 0) + 
+            IF(address IS NULL OR address='', 1, 0)
+        ) as empty_fields_count
+        FROM user 
+        WHERE id=". $value;
+
+        $query = $connection->prepare($sql);
+        $query->execute();
+        $res = $query->fetch(\Doctrine\DBAL\FetchMode::NUMERIC);
+
+        $count = $res[0];
+
+        return (bool) $count;
     }
 }

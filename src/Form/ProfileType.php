@@ -15,6 +15,7 @@ class ProfileType extends AbstractType
     {
         $builder
             ->add('login', TextType::class, ['required' => true])
+            ->add('email', TextType::class, ['required' => true])
             ->add('password', TextType::class, ['required' => true])
             ->add('companyTitle', TextType::class, ['required' => true])
             ->add('phoneNumber', TextType::class, ['required' => true])

@@ -33,6 +33,7 @@ security:
                     google: "/connect/check-google"
                     twitter: /login/check-twitter
                 login_path: /connect
+                default_target_path: /profile/edit
                 use_forward: false
                 failure_path: /registration
                 oauth_user_provider:
