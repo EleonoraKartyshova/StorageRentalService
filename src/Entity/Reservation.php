@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
+use App\Repository\ReservationRepository;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ReservationRepository")
@@ -71,6 +72,13 @@ class Reservation
      * @ORM\Column(type="datetime", name="updated_at", nullable = true)
      */
     private $updatedAt;
+
+    public function testfunc()
+    {
+        return "hi";
+        //$repository = new ReservationRepository(RegistryInterface $registry);
+        //return $repository->testrep();
+    }
 
     /**
      * Gets triggered only on insert

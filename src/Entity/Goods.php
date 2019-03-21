@@ -50,6 +50,11 @@ class Goods
      */
     private $updatedAt;
 
+//    public function __toString()
+//    {
+//        return $this->id;
+//    }
+
     /**
      * Gets triggered only on insert
 

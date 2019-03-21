@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Report{% endblock %}
+
+{% block content %}
+    <div class="col-md-12">
+        <h1>This page is "Report"</h1>
+        <hr><h3>Show report by selected period:</h3>
+        {{ form_start(report_form) }}
+        {{ form_row(report_form.dateFrom, {'value': date_from}) }}
+        {{ form_row(report_form.dateTo, {'value': date_to}) }}
+        <button class="btn btn-primary" type="submit">Apply</button>
+        {{ form_end(report_form) }}
+        <br>
+        <table class="table-bordered table-hover table">
+            <thead class="thead-dark">
+            <tr>
+                <th>Storage title</th>
+                <th>Total reservations count</th>
+                <th>Total days reserved </th>
+                <th>Total days empty</th>
+                <th>Most popular goods property</th>
+                <th>Last reserved date</th>
+                <th>Is reserved now</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for report in reports %}
+                <tr>
+                    <td>{{ report.storageTitle }}</td>
+                    <td>{{ report.id }}</td>
+                    <td>{{ report.id }}</td>
+                    <td>{{ report.storageTypeId }}</td>
+                    <td>{{ report. }}</td>
+                    <td>{{ report.userId }}</td>
+                    <td>{{ report.userId }}</td>
+                    <td>
+                        {% if reservation.hasDelivery==1 %}
+                            yes
+                        {% else %}
+                            no
+                        {% endif %}
+                    </td>
+                    <td>Show details</td>
+                    <td>edit</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

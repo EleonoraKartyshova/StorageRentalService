@@ -48,6 +48,11 @@ class StorageType
      */
     private $updatedAt;
 
+    public function testfunc()
+    {
+        return "hi";
+    }
+
     public function __toString()
     {
         return $this->getTitle();
