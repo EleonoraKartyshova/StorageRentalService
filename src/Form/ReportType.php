@@ -13,19 +13,19 @@ class ReportType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('createdAt',DateType::class, [
+            ->add('dateFrom',DateType::class, [
                 'data' => new \DateTime('- 1 month')
             ])
-            ->add('createdAt',DateType::class, [
+            ->add('dateTo',DateType::class, [
                 'data' => new \DateTime()
             ])
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
-            'data_class' => Reservation::class,
-        ]);
-    }
+//    public function configureOptions(OptionsResolver $resolver)
+//    {
+//        $resolver->setDefaults([
+//            'data_class' => Reservation::class,
+//        ]);
+//    }
 }

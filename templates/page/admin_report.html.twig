@@ -27,22 +27,13 @@
             <tbody>
             {% for report in reports %}
                 <tr>
-                    <td>{{ report.storageTitle }}</td>
-                    <td>{{ report.id }}</td>
-                    <td>{{ report.id }}</td>
-                    <td>{{ report.storageTypeId }}</td>
-                    <td>{{ report. }}</td>
-                    <td>{{ report.userId }}</td>
-                    <td>{{ report.userId }}</td>
-                    <td>
-                        {% if reservation.hasDelivery==1 %}
-                            yes
-                        {% else %}
-                            no
-                        {% endif %}
-                    </td>
-                    <td>Show details</td>
-                    <td>edit</td>
+                    <td>{{ report.storage_title }}</td>
+                    <td>{{ report.total_reservations_count }}</td>
+                    <td>{{ report.total_days_reserved }}</td>
+                    <td></td>
+                    <td></td>
+                    <td>{{ report.last_reserved_date }}</td>
+                    <td>{{ report.is_reserved_now }}</td>
                 </tr>
             {% endfor %}
             </tbody>

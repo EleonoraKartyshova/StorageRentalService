@@ -8,6 +8,7 @@ use App\Form\ReportType;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\ReservationRepository;
 use App\Entity\Reservation;
+use App\Entity\StorageType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use DateTime;
 
@@ -26,7 +27,7 @@ class AdminReportController extends AbstractController
 
     /**
      * @IsGranted("ROLE_ADMIN")
-     * @Route("/admin/reportttttt", name="admin_reportttttt")
+     * @Route("/admin/my_report", name="admin_my_report")
      */
     public function getReport(Request $request)
     {
@@ -37,15 +38,18 @@ class AdminReportController extends AbstractController
         if ($formReport->isSubmitted() && $formReport->isValid()) {
             $formData = $formReport->getData();
 
-            $dateFrom = $formData->getDateFrom();
-            $dateTo = $formData->getDateTo();
+            $dateFrom = $formData['dateFrom'];
+            $dateFrom = $dateFrom->format('Y-m-d');
 
-            //$report = $this->reservationRepository->getReportByPeriod($dateFrom, $dateTo);
+            $dateTo = $formData['dateTo'];
+            $dateTo = $dateTo->format('Y-m-d');
+
+            $report = $this->reservationRepository->getReportByPeriod($dateFrom, $dateTo);
 
         } else {
             $dateFrom = new \DateTime('- 1 month');
             $dateFrom = $dateFrom->format('Y-m-d');
-            //dd($dateFrom);
+
             $dateTo = new \DateTime("now");
             $dateTo = $dateTo->format('Y-m-d');
 

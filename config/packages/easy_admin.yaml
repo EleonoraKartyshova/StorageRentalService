@@ -1,44 +1,126 @@
 easy_admin:
   site_name: 'Storage Rental Service'
   design:
-    menu: ['Report']
+    menu:
+      - label: 'Report'
+        children:
+          - { label: 'Reservations', entity: 'Reservation' }
+          - { label: 'Users', entity: 'User' }
+          - { label: 'Storage types', entity: 'StorageType' }
+          - { label: 'Storage volumes', entity: 'StorageVolume' }
+          - { label: 'Goods', entity: 'Goods' }
+          - { label: 'Goods properties', entity: 'GoodsProperty' }
   entities:
-    Report:
-#      class: App\Entity\Reservation
-      class: App\Entity\StorageType
+    Reservation:
+      class: App\Entity\Reservation
       list:
-        title: 'List "Admin Report"'
-        actions: ['-show', '-edit', '-delete', '-new']
-        fields: #['title']
-          - { property: 'title'}
-          - { property: 'App\Repository\ReservationRepository::testrep', label: 'Custom property'}
-          - { property: 'testfunc', label: 'My testfunc' }
-#          - { property: 'storageTypeId' }
-#          - { property: 'createdAt' }
-
-#        dql_filter: 'entity.createdAt < '
-      form:
+        title: 'Reservations'
         fields:
-          - { property: 'createdAt', type: 'text' }
-        entry_type: App\Form\ReportForm
-
+          - id
+          - { property: 'dateFrom', label: 'Date from' }
+          - { property: 'dateTo', label: 'Date to' }
+          - { property: 'storageTypeId', label: 'Storage type' }
+          - { property: 'storageVolumeId', label: 'Storage volume' }
+          - userId
+          - { property: 'hasDelivery', type: 'boolean' }
+          - details
+          - createdAt
+          - updatedAt
+        max_results: 10
+        actions: ['-edit', '-delete', '-new']
+      show:
+        max_results: 10
+      search:
+        fields: ['storageTypeId', 'storageVolumeId', 'userId']
     Goods:
       class: App\Entity\Goods
+      list:
+        title: 'Goods'
+        fields:
+          - id
+          - { property: 'goodsPropertyId', label: 'Goods property' }
+          - details
+          - { property: 'reservationId', label: 'Reservation Id' }
+          - createdAt
+          - updatedAt
+        max_results: 10
+        actions: ['-edit', '-delete', '-new']
+      show:
+        actions: ['-edit', '-delete', '-new']
+        max_results: 10
+      search:
     GoodsProperty:
       class: App\Entity\GoodsProperty
+      list:
+        title: 'Goods properties'
+        fields:
+          - id
+          - title
+          - createdAt
+          - updatedAt
+        max_results: 10
+        actions: ['-edit', '-delete', '-new']
+      show:
+        actions: ['-edit', '-delete', '-new']
+        max_results: 10
+      search:
     StorageType:
       class: App\Entity\StorageType
+      list:
+        title: 'Storage types'
+        fields:
+          - id
+          - title
+          - { property: 'createdDate', label: 'Created date' }
+          - { property: 'isActive', type: 'boolean' }
+          - createdAt
+          - updatedAt
+        max_results: 10
+        actions: ['-edit', '-delete', '-new']
+      show:
+        actions: ['-edit', '-delete', '-new']
+        max_results: 10
+      search:
+    User:
+      class: App\Entity\User
+      list:
+        title: 'Users'
+        max_results: 10
+        actions: ['-edit', '-delete', '-new']
+        fields:
+          - id
+          - { property: 'facebookID', label: 'Facebook ID' }
+          - login
+          - password
+          - { property: 'email', type: 'email' }
+          - { property: 'companyTitle', label: 'Company title' }
+          - { property: 'phoneNumber', label: 'Phone number', type: 'tel' }
+          - name
+          - address
+          - { property: 'photo', type: 'image', base_path: 'images/' }
+          - role
+          - { property: 'isActive', type: 'boolean' }
+          - createdAt
+          - updatedAt
+      show:
+        actions: ['-edit', '-delete', '-new']
+        max_results: 10
+      search:
+    StorageVolume:
+      class: App\Entity\StorageVolume
+      list:
+        title: 'Storage volumes'
+        fields:
+          - id
+          - volume
+          - { property: 'storageTypeId', label: 'Storage type' }
+          - count
+          - createdAt
+          - updatedAt
+        max_results: 10
+        actions: ['-edit', '-delete', '-new']
+      show:
+        actions: ['-edit', '-delete', '-new']
+        max_results: 10
+      search:
 
-#        dql_filter: 'entity.'
-
-
-#easy_admin:
-#    entities:
-#        # List the entity class name you want to manage
-#        class:
-#            - App\Entity\Reservation
-#        - list:
-#            fields: ['id']
-#        - App\Entity\StorageType
-#        - App\Entity\Goods
-#        - App\Entity\GoodsProperty

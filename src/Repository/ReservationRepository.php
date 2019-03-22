@@ -19,73 +19,63 @@ class ReservationRepository extends ServiceEntityRepository
         parent::__construct($registry, Reservation::class);
     }
 
-    public function testrep()
-    {
-        return "hello";
-    }
-
     public function getReportByPeriod($dateFrom, $dateTo)
     {
         $connection = $this->getEntityManager()->getConnection();
 
         $sql = "
-        SELECT storage_type_id, COUNT(storage_type_id) 
-        FROM reservation 
+        SELECT t.title as storage_title,
+        COUNT(r.id) as total_reservations_count,
+        SUM(r.date_to - r.date_from) as total_days_reserved,
+        group_concat(r.id) as r_ids,
+        group_concat(gp.id) as gp_ids,
+        MAX(r.created_at) as last_reserved_date,
+        IF(MAX(r.date_to) > NOW(), 1, 0) as is_reserved_now 
+        FROM storage_type as t 
+        JOIN reservation r 
+        ON r.storage_type_id = t.id AND r.created_at>='" . $dateFrom . "' AND r.created_at<='" . $dateTo . "'
+        LEFT JOIN goods g 
+        ON r.id = g.reservation_id
+        LEFT JOIN goods_property as gp 
+        ON gp.id = g.goods_property_id
+        GROUP BY t.id
         
-        WHERE created_at>='" . $dateFrom . "' AND created_at<='" . $dateTo . "'
         ";
 
-
-//        SELECT reservation.storage_type_id, goods.goods_property_id
-//FROM reservation
-//LEFT JOIN goods
-//ON (reservation.id=goods.reservation_id)
-//WHERE reservation.created_at>='2019-02-18' AND reservation.created_at<='2019-03-18'
-//
-//
-//    SELECT reservation.storage_type_id, goods.goods_property_id, goods_property.title
-//FROM reservation
-//LEFT JOIN goods
-//ON (reservation.id=goods.reservation_id)
-//LEFT JOIN goods_property
-//ON (goods.goods_property_id=goods_property.id)
-//WHERE reservation.created_at>='2019-02-18' AND reservation.created_at<='2019-03-18'
-//
-//
-//    SELECT COUNT(reservation.storage_type_id), goods_property.title, storage_type.title
-//FROM reservation
-//LEFT JOIN goods
-//	ON reservation.id=goods.reservation_id
-//LEFT JOIN goods_property
-//	ON goods.goods_property_id=goods_property.id
-//LEFT JOIN storage_type
-//	ON storage_type.id=reservation.storage_type_id
-//WHERE reservation.created_at>='2019-02-18' AND reservation.created_at<='2019-03-18';
-//
-//SELECT t.*, count(r.id)
-//FROM storage_type AS t
-//join reservation r on r.storage_type_id=t.id
-//group by t.id;
-
-
+//        $sql = "
+//        SELECT t.title as storage_title,
+//        COUNT(r.id) as total_reservations_count,
+//        SUM(r.date_to - r.date.from) as total_days_reserved,
+//        0 as total_days_empty,
+//        0 as most_popular_goods_property,
+//        group_concat(r.id) as r_ids,
+//        group_concat(gp.id) as gp_ids,
+//        MAX(r.created_at) as last_reserved_date,
+//        IF(MAX(r.date_to) > NOW(), 1, 0) as is_reserved_now
+//        FROM storage_type as t
+//        JOIN reservation r
+//        ON r.storage_type_id = t.id
+//        LEFT JOIN goods g
+//        ON r.id = g.reservation_id
+//        LEFT JOIN goods_property as gp
+//        ON gp.id = g.goods_property_id
+//        GROUP BY t.id
+//        WHERE r.created_at>='" . $dateFrom . "' AND r.created_at<='" . $dateTo . "'
+//        ";
 
 //        $sql = "
-//        SELECT
-//        (
-//            IF(email IS NULL OR email='', 1, 0) +
-//            IF(company_title IS NULL OR company_title='', 1, 0) +
-//            IF(phone_number IS NULL OR phone_number='', 1, 0) +
-//            IF(address IS NULL OR address='', 1, 0)
-//        ) as empty_fields_count
-//        FROM user
-//        WHERE id=". $value;
+//        SELECT *
+//        FROM reservation
+//
+//        WHERE created_at>='" . $dateFrom . "' AND created_at<='" . $dateTo . "'
+//        ";
 
         $query = $connection->prepare($sql);
-        dd($query);
+        //dd($query);
         $query->execute();
-        dd($query);
+        //dd($query);
         $res = $query->fetchAll();
-        dd($res);
+        //dd($res);
 
         return $res;
     }
