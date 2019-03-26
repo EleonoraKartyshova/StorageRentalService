@@ -43,18 +43,36 @@ class AdminReportController extends AbstractController
 
             $dateTo = $formData['dateTo'];
             $dateTo = $dateTo->format('Y-m-d');
-
-            $report = $this->reservationRepository->getReportByPeriod($dateFrom, $dateTo);
-
         } else {
             $dateFrom = new \DateTime('- 1 month');
             $dateFrom = $dateFrom->format('Y-m-d');
 
             $dateTo = new \DateTime("now");
             $dateTo = $dateTo->format('Y-m-d');
-
-            $report = $this->reservationRepository->getReportByPeriod($dateFrom, $dateTo);
         }
+
+        $report = $this->reservationRepository->getReportByPeriod($dateFrom, $dateTo);
+
+        foreach ($report as &$item) {
+            $gp_ids = explode(',', $item['gp_ids']);
+            $count_gp = array_count_values($gp_ids);
+            $maxs = array_keys($count_gp, max($count_gp));
+            $most_popular_gp = $maxs[0];
+            $item['most_popular_goods_property'] = $most_popular_gp;
+
+            $is_reserved_now = explode(',', $item['is_reserved_now_vals']);
+            if (in_array("1", $is_reserved_now, true)) {
+                $item['is_reserved_now'] = 'yes';
+            } else {
+                $item['is_reserved_now'] = 'no';
+            }
+
+            $tot_days_res = explode(',', $item['tot_days_res_vals']);
+            $item['tot_days_res'] = array_sum($tot_days_res);
+
+            $item['tot_days_emp'] = $item['period']*$item['storage_count'] - $item['tot_days_res'];
+        }
+        unset($item);
 
         return $this->render('page/admin_report.html.twig', [
             'admin' => 'active',

@@ -26,56 +26,25 @@ class ReservationRepository extends ServiceEntityRepository
         $sql = "
         SELECT t.title as storage_title,
         COUNT(r.id) as total_reservations_count,
-        SUM(r.date_to - r.date_from) as total_days_reserved,
-        group_concat(r.id) as r_ids,
-        group_concat(gp.id) as gp_ids,
+        group_concat(IF((r.date_from > '$dateTo'), 0, DATEDIFF((LEAST(r.date_to, '$dateTo')), (GREATEST(r.date_from, '$dateFrom'))))) as tot_days_res_vals,
+        DATEDIFF('$dateTo', '$dateFrom') as period,
+        (select SUM(count) from storage_volume where storage_type_id=t.id) as storage_count,      
+        group_concat(gp.title) as gp_ids,
         MAX(r.created_at) as last_reserved_date,
-        IF(MAX(r.date_to) > NOW(), 1, 0) as is_reserved_now 
-        FROM storage_type as t 
-        JOIN reservation r 
+        group_concat(IF((r.date_to >= CURDATE() AND r.date_from <= CURDATE()), 1, 0)) as is_reserved_now_vals 
+        FROM storage_type as t
+        LEFT JOIN reservation r 
         ON r.storage_type_id = t.id AND r.created_at>='" . $dateFrom . "' AND r.created_at<='" . $dateTo . "'
         LEFT JOIN goods g 
         ON r.id = g.reservation_id
         LEFT JOIN goods_property as gp 
-        ON gp.id = g.goods_property_id
+        ON gp.id = g.goods_property_id       
         GROUP BY t.id
-        
         ";
 
-//        $sql = "
-//        SELECT t.title as storage_title,
-//        COUNT(r.id) as total_reservations_count,
-//        SUM(r.date_to - r.date.from) as total_days_reserved,
-//        0 as total_days_empty,
-//        0 as most_popular_goods_property,
-//        group_concat(r.id) as r_ids,
-//        group_concat(gp.id) as gp_ids,
-//        MAX(r.created_at) as last_reserved_date,
-//        IF(MAX(r.date_to) > NOW(), 1, 0) as is_reserved_now
-//        FROM storage_type as t
-//        JOIN reservation r
-//        ON r.storage_type_id = t.id
-//        LEFT JOIN goods g
-//        ON r.id = g.reservation_id
-//        LEFT JOIN goods_property as gp
-//        ON gp.id = g.goods_property_id
-//        GROUP BY t.id
-//        WHERE r.created_at>='" . $dateFrom . "' AND r.created_at<='" . $dateTo . "'
-//        ";
-
-//        $sql = "
-//        SELECT *
-//        FROM reservation
-//
-//        WHERE created_at>='" . $dateFrom . "' AND created_at<='" . $dateTo . "'
-//        ";
-
         $query = $connection->prepare($sql);
-        //dd($query);
         $query->execute();
-        //dd($query);
         $res = $query->fetchAll();
-        //dd($res);
 
         return $res;
     }

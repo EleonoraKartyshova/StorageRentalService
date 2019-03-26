@@ -1,6 +1,8 @@
 easy_admin:
   site_name: 'Storage Rental Service'
   design:
+    templates:
+      label_null: 'page/custom_label_null.html.twig'
     menu:
       - label: 'Report'
         children:
@@ -83,13 +85,15 @@ easy_admin:
       search:
     User:
       class: App\Entity\User
+      templates:
+        list: 'page/custom_users_list.html.twig'
       list:
         title: 'Users'
         max_results: 10
         actions: ['-edit', '-delete', '-new']
         fields:
           - id
-          - { property: 'facebookID', label: 'Facebook ID' }
+          - { property: 'facebookID', label: 'Facebook ID', type_options: { block_name: 'custom_fb_id' } }
           - login
           - password
           - { property: 'email', type: 'email' }

@@ -16,11 +16,11 @@
             <thead class="thead-dark">
             <tr>
                 <th>Storage title</th>
-                <th>Total reservations count</th>
-                <th>Total days reserved </th>
-                <th>Total days empty</th>
-                <th>Most popular goods property</th>
-                <th>Last reserved date</th>
+                <th>Total reservations count (created on selected period)</th>
+                <th>Total days reserved (for the selected period)</th>
+                <th>Total days empty (for the selected period)</th>
+                <th>Most popular goods property (for the selected period)</th>
+                <th>Last reserved date (for the selected period)</th>
                 <th>Is reserved now</th>
             </tr>
             </thead>
@@ -29,9 +29,9 @@
                 <tr>
                     <td>{{ report.storage_title }}</td>
                     <td>{{ report.total_reservations_count }}</td>
-                    <td>{{ report.total_days_reserved }}</td>
-                    <td></td>
-                    <td></td>
+                    <td>{{ report.tot_days_res }}</td>
+                    <td>{{ report.tot_days_emp }}</td>
+                    <td>{{ report.most_popular_goods_property}}</td>
                     <td>{{ report.last_reserved_date }}</td>
                     <td>{{ report.is_reserved_now }}</td>
                 </tr>
