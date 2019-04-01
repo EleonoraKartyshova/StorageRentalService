@@ -20,6 +20,9 @@
                     <li class="nav-item {% if contact_us is defined %} {{ contact_us }} {% endif %}">
                         <a class="nav-link" href="{{ path('page_show', {'page': 'contact_us'}) }}">Contact us</a>
                     </li>
+                    <li class="nav-item {% if currency is defined %} {{ currency }} {% endif %}">
+                        <a class="nav-link" href="{{ path('currency_exchange') }}">Currency exchange</a>
+                    </li>
                     {% if is_granted('ROLE_USER') %}
                         <li class="nav-item dropdown {% if reserve is defined %} {{ reserve }} {% endif %}">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

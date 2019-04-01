@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Currency exchange report{% endblock %}
+
+{% block content %}
+    <div class="col-md-10">
+        <h1>This page is "Currency exchange report"</h1>
+
+        <table class="table-bordered table-hover table">
+            <thead class="thead-dark">
+            <tr>
+                <th>Currency from</th>
+                <th>Currency to</th>
+                <th>Rate</th>
+                <th>Date</th>
+                <th>Up/Down</th>
+            </tr>
+            </thead>
+            <tbody>
+{#            {% for currency_report in currency_reports %}#}
+{#                <tr>#}
+{#                    <td>{{ currency_report.from }}</td>#}
+{#                    <td>{{ currency_report.to }}</td>#}
+{#                    <td>{{ currency_report.rate }}</td>#}
+{#                    <td>{{ currency_report.date }}</td>#}
+{#                    <td>{{ currency_report.state }}</td>#}
+{#                    <td>#}
+{#                        {% if currency_report.state==1 %}#}
+{#                            up#}
+{#                        {% else %}#}
+{#                            down#}
+{#                        {% endif %}#}
+{#                    </td>#}
+{#                </tr>#}
+{#            {% endfor %}#}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -5,6 +5,9 @@
     "clue/stream-filter": {
         "version": "v1.4.0"
     },
+    "curl/curl": {
+        "version": "2.2.0"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
