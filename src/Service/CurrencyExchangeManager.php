@@ -32,13 +32,19 @@ class CurrencyExchangeManager extends AbstractController
         }
 
         $ch = curl_init();
-        //curl_setopt($ch, CURLOPT_URL, 'https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=UAH');
+        curl_setopt($ch, CURLOPT_URL, 'https://free.currencyconverterapi.com/api/v5/convert?q=USD_UAH&compact=y&apiKey=809e02e97aee8badec89');
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-type: application/json'));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
         $response = curl_exec($ch);
 
-        $data = json_decode($response);
+        $data = json_decode($response, true);
+
+        $data_text = "";
+        foreach ($data as $key => $value) {
+            $data_text .= $key . "_" . $value['val'] . "_" . date("Y-m-d-H-i-s") . "\n";
+        }
+
+        file_put_contents($this->path . "sync_currency/data.txt", $data_text, FILE_APPEND);
     }
 }
-
