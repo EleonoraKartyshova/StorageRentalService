@@ -9,27 +9,17 @@
 namespace App\Service;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use DateTime;
 
 class CurrencyExchangeManager extends AbstractController
 {
-    protected $path = '/home/NIX/kartyshova/www/projects/StorageRentalService/src/';
+    const PATH = __DIR__.'/../../data/';
+    const CURRENCY_DIR = 'sync_currency/';
+    const CURRENCY_FILE = 'data.txt';
 
     public function currencyExchange()
     {
-        if (!file_exists($this->path . 'sync_currency/')) {
-            mkdir($this->path . 'sync_currency', 0777);
-            echo "The directory was successfully created. ";
-        } else {
-            echo "The directory exists.";
-        }
-
-        if (!file_exists($this->path . 'sync_currency/data.txt')) {
-            $file = fopen($this->path . "sync_currency/data.txt", "a+");
-            echo "The file was successfully created. ";
-        } else {
-            echo "The file exists.";
-        }
+        $this->createDir();
+        $this->createFile();
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, 'https://free.currencyconverterapi.com/api/v5/convert?q=USD_UAH&compact=y&apiKey=809e02e97aee8badec89');
@@ -45,6 +35,20 @@ class CurrencyExchangeManager extends AbstractController
             $data_text .= $key . "_" . $value['val'] . "_" . date("Y-m-d-H-i-s") . "\n";
         }
 
-        file_put_contents($this->path . "sync_currency/data.txt", $data_text, FILE_APPEND);
+        file_put_contents(self::PATH.self::CURRENCY_DIR.self::CURRENCY_FILE, $data_text, FILE_APPEND);
+    }
+
+    public function createDir()
+    {
+        if (!file_exists(self::PATH.self::CURRENCY_DIR)) {
+            mkdir(rtrim(self::PATH.self::CURRENCY_DIR,'/'), 0777);
+        }
+    }
+
+    public function createFile()
+    {
+        if (!file_exists(self::PATH.self::CURRENCY_DIR.self::CURRENCY_FILE)) {
+            fopen(self::PATH.self::CURRENCY_DIR.self::CURRENCY_FILE, "a+");
+        }
     }
 }

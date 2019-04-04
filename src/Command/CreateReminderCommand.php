@@ -40,7 +40,7 @@ class CreateReminderCommand extends Command
             '============',
         ]);
 
-        $this->remindManager->getUserEmails();
+        $this->remindManager->sendEmails();
 
         $output->writeln('Messages have already been sent!');
     }

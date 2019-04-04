@@ -7,14 +7,14 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CurrencyExchangeController extends AbstractController
 {
-    protected $file = "/home/NIX/kartyshova/www/projects/StorageRentalService/src/sync_currency/data.txt";
+    const CURRENCY_FILE = __DIR__.'/../../data/sync_currency/data.txt';
 
     /**
      * @Route("/currency/exchange", name="currency_exchange")
      */
     public function currencyExchangeReport()
     {
-        $all_lines = file($this->file);
+        $all_lines = file(self::CURRENCY_FILE);
         $last_5 = array_slice($all_lines, -5);
 
         $currency_reports = [];

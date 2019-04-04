@@ -21,7 +21,7 @@ class RemindManager extends AbstractController
         $this->mailer = $mailer;
     }
 
-    public function getUserEmails()
+    public function sendEmails()
     {
         $dateTo = new \DateTime('+'. $this->daysToEndOfStoragePeriod .' days');
 

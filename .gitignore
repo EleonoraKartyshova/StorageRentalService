@@ -21,6 +21,7 @@
 /public/adminer-4.7.0.php
 /templates/my_test/
 /public/images/
+/data/sync_currency
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
 /public/build/
